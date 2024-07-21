@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: CangQiong
+  port: 8080
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sky_take_out?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+  data:
+       redis:
+         prot: 6379
+         host: localhost
+
+
+sky:
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    admin-secret-key: itcast
+    # 设置jwt过期时间
+    admin-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    admin-token-name: token
+
