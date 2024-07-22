@@ -51,9 +51,7 @@ public class EmployeeController {
         Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
         user.setCreateUser(claims.getId());
 
-        loginService.addEmployee(user);
-
-        return Result.success();
+        return loginService.addEmployee(user) == 1 ? Result.success() : Result.error("修改失败");
     }
 
 

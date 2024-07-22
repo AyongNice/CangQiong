@@ -21,6 +21,8 @@ public interface Admin {
     @Insert("INSERT INTO employee (name, username, password, phone, sex, id_number, status, create_time, update_time, create_user, update_user) " +
             "VALUES (#{name}, #{username}, #{password}, #{phone}, #{sex}, #{idNumber}, #{status}, " +
             "#{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
-    void addEmployee(User user);
+    Integer addEmployee(User user);
+
+
 
 }

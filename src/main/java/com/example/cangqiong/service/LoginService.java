@@ -39,7 +39,6 @@ public class LoginService {
     JwtProperties jwtProperties;
 
 
-
     public EmployeeLoginVO checkPassword(LongDto loginDto) {
 
         LongDto date = admin.getPassword(loginDto);
@@ -67,7 +66,7 @@ public class LoginService {
     }
 
 
-    public void addEmployee(User user) {
+    public Integer addEmployee(User user) {
 
         user.setStatus(1);
         user.setPassword(PasswordUtil.encryptPassword(UserConst.password));
@@ -76,7 +75,7 @@ public class LoginService {
 
         user.setUpdateTime(LocalDateTime.now());
 
-        admin.addEmployee(user);
+        return admin.addEmployee(user);
 
 
     }
