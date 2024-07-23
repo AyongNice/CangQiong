@@ -5,8 +5,9 @@ import com.example.cangqiong.dto.LongDto;
 import com.example.cangqiong.dto.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface Admin {
@@ -23,6 +24,10 @@ public interface Admin {
             "#{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
     Integer addEmployee(User user);
 
+
+
+
+    public List<User> page(Integer start, Integer pageSize, String name);
 
 
 }

@@ -12,6 +12,7 @@ import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.PasswordUtil;
 import com.example.cangqiong.vo.EmployeeLoginVO;
 
+import com.example.cangqiong.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -22,6 +23,7 @@ import java.time.Duration;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -66,6 +68,12 @@ public class LoginService {
     }
 
 
+    /**
+     * 新增员工
+     * @param user
+     * @return
+     */
+
     public Integer addEmployee(User user) {
 
         user.setStatus(1);
@@ -79,4 +87,19 @@ public class LoginService {
 
 
     }
+
+    /**
+     * 分页查询
+     */
+
+    public PageVo page(Integer pageNum, Integer pageSize,String name) {
+
+        List<User> list =  admin.page(pageNum, pageSize, name);
+        PageVo pageVo = new PageVo();
+        pageVo.setRecords(list);
+        User user =   list.get(0);
+        pageVo.setTotal(user.getCount());
+        return  pageVo;
+    }
+
 }

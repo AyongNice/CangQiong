@@ -11,12 +11,14 @@ import com.example.cangqiong.service.LoginService;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
 import com.example.cangqiong.vo.EmployeeLoginVO;
+import com.example.cangqiong.vo.PageVo;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 员工管理
@@ -52,9 +54,18 @@ public class EmployeeController {
     public Result addEmployee(@RequestBody User user, @RequestHeader("Token") String token) {
 
         Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
-        user.setCreateUser((String) claims.get(JwtClaims.EMP_ID));
+
+        user.setCreateUser(String.valueOf(claims.get(JwtClaims.EMP_ID)));
 
         return loginService.addEmployee(user) == 1 ? Result.success() : Result.error("修改失败");
+    }
+
+    @GetMapping("/page")
+    public Result addEmployee(@RequestParam(defaultValue = "1") Integer pageNum,
+                              @RequestParam(defaultValue = "10") Integer pageSize,
+                              String name) {
+
+        return Result.success( loginService.page(pageNum, pageSize, name));
     }
 
 

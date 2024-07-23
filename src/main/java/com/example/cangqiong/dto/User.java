@@ -19,4 +19,7 @@ public class User {
     private LocalDateTime updateTime;
     private String createUser;
     private String updateUser;
+
+    //总数
+    private  Integer count;
 }
