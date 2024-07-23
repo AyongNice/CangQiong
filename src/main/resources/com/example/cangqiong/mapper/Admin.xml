@@ -4,12 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.cangqiong.mapper.Admin">
 
-
-
+    <!-- 定义 SQL 片段 -->
+    <sql id="searchEmployeeByName">
+        <where>
+            <if test="name != null">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </sql>
+    <!-- 使用 SQL 片段计算总记录数 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(*)
+        FROM employee
+        <!-- 引用 SQL 片段 -->
+        <include refid="searchEmployeeByName"/>
+    </select>
     <select id="page">
         select id ,
         if(sex = '1', '男', '女'),
         name,
+        username,
         password ,
         phone ,
         status ,
@@ -17,19 +31,10 @@
         update_time as updateTime,
         create_user as createUser,
         update_user as updateUser,
-        id_number as idNumber,
-        (select count(*) from employee
-        <where>
-            <if test="name != null">
-                name like concat('%', #{name},'%')
-            </if>
-        </where>
-        ) count from employee
-        <where>
-            <if test="name != null">
-                name like concat('%', #{name},'%')
-            </if>
-        </where>
+        id_number as idNumber
+        from employee
+        <!-- 引用 SQL 片段 -->
+        <include refid="searchEmployeeByName"/>
         limit #{start}, #{pageSize}
     </select>
 </mapper>

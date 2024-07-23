@@ -25,9 +25,8 @@ public interface Admin {
     Integer addEmployee(User user);
 
 
-
-
     public List<User> page(Integer start, Integer pageSize, String name);
 
-
+    //查询总数
+    public Integer count(String name);
 }

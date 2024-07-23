@@ -70,6 +70,7 @@ public class LoginService {
 
     /**
      * 新增员工
+     *
      * @param user
      * @return
      */
@@ -92,14 +93,16 @@ public class LoginService {
      * 分页查询
      */
 
-    public PageVo page(Integer pageNum, Integer pageSize,String name) {
+    public PageVo page(Integer pageNum, Integer pageSize, String name) {
+        Integer start = (pageNum - 1) * pageSize;
+        List<User> list = admin.page(start, pageSize, name);
 
-        List<User> list =  admin.page(pageNum, pageSize, name);
+        Integer count = admin.count(name);
         PageVo pageVo = new PageVo();
         pageVo.setRecords(list);
-        User user =   list.get(0);
-        pageVo.setTotal(user.getCount());
-        return  pageVo;
+
+        pageVo.setTotal(count);
+        return pageVo;
     }
 
 }
