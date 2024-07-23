@@ -1,6 +1,7 @@
 package com.example.cangqiong.controller.admin;
 
 
+import com.example.cangqiong.constant.JwtClaims;
 import com.example.cangqiong.constant.JwtProperties;
 import com.example.cangqiong.dto.LongDto;
 import com.example.cangqiong.dto.User;
@@ -28,6 +29,8 @@ public class EmployeeController {
 
     @Autowired
     private LoginService loginService;
+
+
     @Qualifier("jwtProperties")
     @Autowired
     JwtProperties jwtProperties;
@@ -49,7 +52,7 @@ public class EmployeeController {
     public Result addEmployee(@RequestBody User user, @RequestHeader("Token") String token) {
 
         Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
-        user.setCreateUser(claims.getId());
+        user.setCreateUser((String) claims.get(JwtClaims.EMP_ID));
 
         return loginService.addEmployee(user) == 1 ? Result.success() : Result.error("修改失败");
     }

@@ -43,7 +43,7 @@ public class LoginService {
 
         LongDto date = admin.getPassword(loginDto);
 
-        Boolean chack = PasswordUtil.checkPassword(loginDto.getPassword(), date.getPassword());
+        boolean chack = PasswordUtil.checkPassword(loginDto.getPassword(), date.getPassword());
 
         if (chack) {
             Map<String, Object> calmins = new HashMap<>();
@@ -52,9 +52,9 @@ public class LoginService {
             String token = JwtUtil.createJWT(jwtProperties.getAdminSecretKey(), jwtProperties.getAdminTtl(), calmins);
 
             // 设置过期时间为 20 分钟
-            Duration duration = Duration.ofMinutes(20);
+            Duration duration = Duration.ofMinutes(10);
             //存储redistribution
-            strRiesT.opsForValue().set("token:" + date.getId(), token, duration);
+            strRiesT.opsForValue().set(JwtClaims.KOKENKEY + date.getId(), token, duration);
 
 
             return EmployeeLoginVO.builder().id(date.getId()).token(token).name(date.getName()).userName(date.getUsername()).build();
