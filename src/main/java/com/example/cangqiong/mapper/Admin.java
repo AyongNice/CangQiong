@@ -1,11 +1,13 @@
 package com.example.cangqiong.mapper;
 
 
+import com.example.cangqiong.dto.EditPasswordDto;
 import com.example.cangqiong.dto.LongDto;
 import com.example.cangqiong.dto.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -29,4 +31,21 @@ public interface Admin {
 
     //查询总数
     public Integer count(String name);
+
+
+    //根据id查处询员工密码
+    @Select("select password from employee where id=#{empId}")
+    public String getPasswordById(String loginDto);
+
+    //修改密码
+    @Update("update employee set password=#{newPassword} where id=#{empId}")
+    public Integer editPassword(EditPasswordDto editPasswordDto);
+
+
+    //修改员工信息
+    public Integer editEmployee(User user);
+
+    //查询员工
+    @Select("select name, username, phone, sex, id_number from employee where id=#{id}")
+    public User getEmployeeById(String id);
 }

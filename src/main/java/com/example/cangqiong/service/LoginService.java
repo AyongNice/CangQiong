@@ -4,6 +4,7 @@ package com.example.cangqiong.service;
 import com.example.cangqiong.constant.JwtClaims;
 import com.example.cangqiong.constant.JwtProperties;
 import com.example.cangqiong.constant.UserConst;
+import com.example.cangqiong.dto.EditPasswordDto;
 import com.example.cangqiong.dto.LongDto;
 import com.example.cangqiong.dto.User;
 import com.example.cangqiong.mapper.Admin;
@@ -45,9 +46,7 @@ public class LoginService {
 
         LongDto date = admin.getPassword(loginDto);
 
-        boolean chack = PasswordUtil.checkPassword(loginDto.getPassword(), date.getPassword());
-
-        if (chack) {
+        if (PasswordUtil.checkPassword(loginDto.getPassword(), date.getPassword())) {
             Map<String, Object> calmins = new HashMap<>();
             calmins.put(JwtClaims.EMP_ID, date.getId());
 
@@ -76,7 +75,6 @@ public class LoginService {
      */
 
     public Integer addEmployee(User user) {
-
         user.setStatus(1);
         user.setPassword(PasswordUtil.encryptPassword(UserConst.password));
 
@@ -85,8 +83,26 @@ public class LoginService {
         user.setUpdateTime(LocalDateTime.now());
 
         return admin.addEmployee(user);
+    }
 
+    /**
+     * 查询员工
+      */
 
+    public User  getEmployeeById(String id){
+
+        return admin.getEmployeeById(id);
+
+    }
+
+    /**
+     * 修改员工信息
+     */
+
+    public Integer editEmployee(User user) {
+        user.setUpdateTime(LocalDateTime.now());
+        user.setStatus(1);
+        return admin.editEmployee(user);
     }
 
     /**
@@ -104,5 +120,29 @@ public class LoginService {
         pageVo.setTotal(count);
         return pageVo;
     }
+
+
+    /**
+     * 修改密码
+     * @param editPasswordDto
+     * @return
+     */
+    public Integer editPassword(EditPasswordDto editPasswordDto) {
+
+        String oldPassword = PasswordUtil.encryptPassword(editPasswordDto.getOldPassword());
+
+        editPasswordDto.setNewPassword(PasswordUtil.encryptPassword(editPasswordDto.getNewPassword()));
+
+        if (admin.getPasswordById(editPasswordDto.getEmpId()).equals(oldPassword)) {
+            return admin.editPassword(editPasswordDto);
+        }
+
+        return 0;
+
+
+    }
+
+
+
 
 }
