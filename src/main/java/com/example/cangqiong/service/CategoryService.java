@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CategoryService {
@@ -24,4 +25,8 @@ public class CategoryService {
         return categoryMapper.addCategory(categoryDto);
     }
 
+    public List<CategoryDto> list(Integer type) {
+
+        return categoryMapper.list(type);
+    }
 }

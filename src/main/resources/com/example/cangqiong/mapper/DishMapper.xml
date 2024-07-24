@@ -5,7 +5,29 @@
 <mapper namespace="com.example.cangqiong.mapper.DishMapper">
 
     <insert id="addDish">
-        INSERT INTO dish (category_id, category_name, copy, create_time, create_user, description, id, image, name, price, status, update_time, update_user)
-        VALUES (#{categoryId}, #{categoryName}, #{copy}, #{createTime}, #{createUser}, #{description}, #{id}, #{image}, #{name}, #{price}, #{status}, #{updateTime}, #{updateUser})
+        insert into dish (name,
+                          category_id,
+                          price,
+                          create_user,
+                          description,
+                          image,
+                          status,
+                          update_time,
+                          update_user,
+                          create_time,
+                          create_user)
+
+        values (#{name},
+                #{categoryId},
+                #{price},
+                #{createUser},
+                #{description},
+                #{image},
+                #{status},
+                #{updateTime},
+                #{updateUser},
+                #{createTime},
+                #{createUser}
+                )
     </insert>
 </mapper>

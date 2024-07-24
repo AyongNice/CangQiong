@@ -1,15 +1,18 @@
 package com.example.cangqiong.controller.admin;
 
 
+import com.example.cangqiong.constant.JwtClaims;
+import com.example.cangqiong.constant.JwtProperties;
 import com.example.cangqiong.dto.DishDto;
 import com.example.cangqiong.mapper.DishMapper;
 import com.example.cangqiong.service.DishService;
+import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 菜品管理
@@ -22,12 +25,21 @@ public class DishController {
     @Autowired
     DishService dishService;
 
+
+    @Qualifier("jwtProperties")
+    @Autowired
+    JwtProperties jwtProperties;
+
     /**
      * 添加菜品
      */
 
-    public Result addDish(@RequestBody DishDto dishDto) {
 
+    @PostMapping
+    public Result addDish(@RequestBody DishDto dishDto ,  @RequestHeader("Token") String token) {
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+
+        dishDto.setCreateUser(String.valueOf(claims.get(JwtClaims.EMP_ID)));
         return dishService.addDish(dishDto) == 1 ? Result.success() : Result.error("添加失败");
     }
 

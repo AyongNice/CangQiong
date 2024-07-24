@@ -6,6 +6,8 @@ import com.example.cangqiong.mapper.DishMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class DishService {
 
@@ -17,7 +19,10 @@ public class DishService {
      * 增加菜品
      */
     public Integer addDish(DishDto dishDto) {
-      return  dishMapper.addDish(dishDto);
+
+        dishDto.setCreateTime(LocalDateTime.now());
+        dishDto.setUpdateTime(LocalDateTime.now());
+        return dishMapper.addDish(dishDto);
     }
 
 }

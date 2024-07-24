@@ -3,6 +3,8 @@ package com.example.cangqiong.dto;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class DishDto {
 
@@ -28,8 +30,8 @@ public class DishDto {
     private String image;
     private String description;
     private String status;
-    private String createTime;
-    private String updateTime;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
     private String createUser;
     private String updateUser;
     private String categoryName;
