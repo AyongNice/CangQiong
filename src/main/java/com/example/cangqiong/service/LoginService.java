@@ -14,6 +14,7 @@ import com.example.cangqiong.utlis.PasswordUtil;
 import com.example.cangqiong.vo.EmployeeLoginVO;
 
 import com.example.cangqiong.vo.PageVo;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -66,6 +67,12 @@ public class LoginService {
 
     }
 
+    /**
+     * 推出登陆
+     */
+    public void logout(Claims claims) {
+        strRiesT.delete(JwtClaims.KOKENKEY + claims.get(JwtClaims.EMP_ID));
+    }
 
     /**
      * 新增员工
@@ -87,9 +94,9 @@ public class LoginService {
 
     /**
      * 查询员工
-      */
+     */
 
-    public User  getEmployeeById(String id){
+    public User getEmployeeById(String id) {
 
         return admin.getEmployeeById(id);
 
@@ -124,6 +131,7 @@ public class LoginService {
 
     /**
      * 修改密码
+     *
      * @param editPasswordDto
      * @return
      */
@@ -141,8 +149,6 @@ public class LoginService {
 
 
     }
-
-
 
 
 }

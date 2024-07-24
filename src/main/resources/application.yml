@@ -1,15 +1,18 @@
+server:
+  port: 8085
+
 spring:
   application:
     name: CangQiong
-  port: 8080
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sky_take_out?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/sky_take_out?useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: 123456
+    password: 7758521
   data:
        redis:
-         prot: 6379
+         port: 19383
          host: localhost
 
 
@@ -22,3 +25,5 @@ sky:
     # 设置前端传递过来的令牌名称
     admin-token-name: token
 
+static:
+  path: /Users/ayong/ayong-code/java/static/

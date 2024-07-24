@@ -33,7 +33,7 @@ public class EmployeeController {
     @Autowired
     private LoginService loginService;
 
- // RedisTemplate
+    // RedisTemplate
     @Qualifier("jwtProperties")
     @Autowired
     JwtProperties jwtProperties;
@@ -41,6 +41,7 @@ public class EmployeeController {
 
     /**
      * 登录
+     *
      * @param loginDto
      * @return
      */
@@ -51,6 +52,19 @@ public class EmployeeController {
 
         return employeeLoginVO == null ? Result.error("密码错误") : Result.success(employeeLoginVO);
 
+    }
+
+
+    /**
+     * 退出登陆
+     */
+
+    @GetMapping("/logout")
+    public Result logout(@RequestHeader("Token") String token) {
+
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+        loginService.logout(claims);
+        return Result.success();
     }
 
     /**
@@ -69,6 +83,7 @@ public class EmployeeController {
 
     /**
      * 分页查询
+     *
      * @param pageNum
      * @param pageSize
      * @param name
@@ -79,12 +94,13 @@ public class EmployeeController {
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               String name) {
 
-        return Result.success( loginService.page(pageNum, pageSize, name));
+        return Result.success(loginService.page(pageNum, pageSize, name));
     }
 
 
     /**
      * 修改密码
+     *
      * @param editPasswordDto
      * @param token
      * @return
@@ -92,6 +108,7 @@ public class EmployeeController {
 
     @PutMapping("/editPassword")
     public Result editPassword(@RequestBody EditPasswordDto editPasswordDto, @RequestHeader("Token") String token) {
+
 
         Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
 
@@ -111,6 +128,7 @@ public class EmployeeController {
 
     /**
      * 修改员工
+     *
      * @param user
      * @return
      */

@@ -26,4 +26,6 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInter(jwtProperties,strRidesT)).excludePathPatterns("/admin/employee/login");
     }
+
+
 }

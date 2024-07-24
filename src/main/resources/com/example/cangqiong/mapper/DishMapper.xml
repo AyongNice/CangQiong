@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cangqiong.mapper.DishMapper">
+
+    <insert id="addDish">
+        INSERT INTO dish (category_id, category_name, copy, create_time, create_user, description, id, image, name, price, status, update_time, update_user)
+        VALUES (#{categoryId}, #{categoryName}, #{copy}, #{createTime}, #{createUser}, #{description}, #{id}, #{image}, #{name}, #{price}, #{status}, #{updateTime}, #{updateUser})
+    </insert>
+</mapper>

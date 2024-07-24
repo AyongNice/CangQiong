@@ -13,5 +13,5 @@ public class EditPasswordDto {
 
     private String newPassword;
 
-
+    private String a;
 }
