@@ -8,11 +8,15 @@ import com.example.cangqiong.mapper.DishMapper;
 import com.example.cangqiong.service.DishService;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
+import com.example.cangqiong.vo.PageVo;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 菜品管理
@@ -36,11 +40,34 @@ public class DishController {
 
 
     @PostMapping
-    public Result addDish(@RequestBody DishDto dishDto ,  @RequestHeader("Token") String token) {
+    public Result addDish(@RequestBody DishDto dishDto, @RequestHeader("Token") String token) {
         Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
 
         dishDto.setCreateUser(String.valueOf(claims.get(JwtClaims.EMP_ID)));
         return dishService.addDish(dishDto) == 1 ? Result.success() : Result.error("添加失败");
+    }
+
+
+    /**
+     * 查询分页
+     */
+
+    @GetMapping("/page")
+    public Result<PageVo<DishDto>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+                                        @RequestParam(defaultValue = "10") Integer pageSize,
+                                        @Param("name") String name, @Param("status") String status, @Param("categoryId") String categoryId) {
+        return Result.success(dishService.page(pageNum, pageSize, categoryId, name, status));
+    }
+
+
+    /**
+     * 查询菜品
+     */
+    @GetMapping("/list")
+    public Result<List<DishDto>> list(@Param("categoryId") String categoryId) {
+
+        return Result.success(dishService.list(categoryId));
+
     }
 
 }

@@ -35,7 +35,6 @@ public class DishDto {
     private String createUser;
     private String updateUser;
     private String categoryName;
-    private String copy;
 
 
 }

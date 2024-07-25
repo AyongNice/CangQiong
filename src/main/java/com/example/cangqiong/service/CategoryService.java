@@ -3,6 +3,7 @@ package com.example.cangqiong.service;
 
 import com.example.cangqiong.dto.CategoryDto;
 import com.example.cangqiong.mapper.CategoryMapper;
+import com.example.cangqiong.utlis.Result;
 import com.example.cangqiong.vo.PageVo;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -56,5 +57,19 @@ public class CategoryService {
         PageInfo<CategoryDto> pageInfo = new PageInfo<>(list);
 
         return new PageVo<>(pageInfo.getTotal(), pageInfo.getList());
+    }
+
+    public Integer editStatus(String status, Integer id) {
+       return  categoryMapper.editStatus(status, id);
+
+    }
+
+    public Integer editCategory(CategoryDto categoryDto) {
+        return categoryMapper.editCategory(categoryDto);
+
+    }
+
+    public Integer deleteCategory(Integer id) {
+        return categoryMapper.deleteCategory(id);
     }
 }

@@ -46,6 +46,27 @@ public class CategoryController {
         return categoryService.addCategory(categoryDto) > 0 ? Result.success() : Result.error("新增失败");
     }
 
+    /**
+     * 修改分类
+     * @param type
+     * @return
+     */
+    @PutMapping
+
+    public Result<String> editCategory(@RequestBody CategoryDto categoryDto, @RequestHeader("Token") String token) {
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+
+        categoryDto.setUpdateUser(String.valueOf(claims.get(JwtClaims.EMP_ID)));
+
+        return categoryService.editCategory(categoryDto) > 0 ? Result.success() : Result.error("修改失败");
+    }
+
+    @DeleteMapping
+    public Result<String> deleteCategory(@Param("id") Integer id) {
+        return categoryService.deleteCategory(id) > 0 ? Result.success() : Result.error("删除失败");
+    }
+
+
 
     /**
      * 根据type查询分类
@@ -61,6 +82,18 @@ public class CategoryController {
                                             @RequestParam(defaultValue = "10") Integer pageSize,
                                             String name, String type) {
         return Result.success(categoryService.page(page, pageSize, name, type));
+    }
+
+
+    /**
+     * 修改产品分类
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    public Result<String> editStatus(@PathVariable String status, @Param("id") Integer id) {
+        return categoryService.editStatus(status, id) > 0 ? Result.success() : Result.error("修改失败");
     }
 
 

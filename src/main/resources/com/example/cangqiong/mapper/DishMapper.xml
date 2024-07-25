@@ -30,4 +30,31 @@
                 #{createUser}
                 )
     </insert>
+
+    <select id="page"  resultType="com.example.cangqiong.dto.DishDto" >
+        select
+        id,
+        name,
+        price,
+        status,
+        category_id as categoryId,
+        create_time as createTime,
+        create_user as createUser,
+        description,
+        image,
+        update_time as updateTime,
+        update_user as updateUser
+        from dish
+        <where>
+            <if test="name != null">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
 </mapper>
