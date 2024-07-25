@@ -116,16 +116,11 @@ public class LoginService {
      * 分页查询
      */
 
-    public PageVo page(Integer pageNum, Integer pageSize, String name) {
+    public PageVo<User> page(Integer pageNum, Integer pageSize, String name) {
         Integer start = (pageNum - 1) * pageSize;
         List<User> list = admin.page(start, pageSize, name);
 
-        Integer count = admin.count(name);
-        PageVo pageVo = new PageVo();
-        pageVo.setRecords(list);
-
-        pageVo.setTotal(count);
-        return pageVo;
+        return new PageVo<>(Long.valueOf(admin.count(name)), list);
     }
 
 

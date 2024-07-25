@@ -19,4 +19,6 @@ public interface CategoryMapper {
 
     @Select("select * from category where type = #{type}")
     List<CategoryDto> list(Integer type);
+
+    List<CategoryDto> page(String name, String type);
 }

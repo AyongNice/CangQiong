@@ -3,6 +3,10 @@ package com.example.cangqiong.service;
 
 import com.example.cangqiong.dto.CategoryDto;
 import com.example.cangqiong.mapper.CategoryMapper;
+import com.example.cangqiong.vo.PageVo;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,13 @@ public class CategoryService {
     @Autowired
     CategoryMapper categoryMapper;
 
+
+    /**
+     * 新增
+     *
+     * @param categoryDto
+     * @return
+     */
     public Integer addCategory(CategoryDto categoryDto) {
 
         categoryDto.setStatus(1);
@@ -25,8 +36,25 @@ public class CategoryService {
         return categoryMapper.addCategory(categoryDto);
     }
 
+    /**
+     * 查询分类
+     *
+     * @param type
+     * @return
+     */
     public List<CategoryDto> list(Integer type) {
 
         return categoryMapper.list(type);
+    }
+
+    public PageVo page(Integer pageNum, Integer pageSize, String name, String type) {
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<CategoryDto> list = categoryMapper.page(name, type);
+
+        // 使用 PageInfo 来获取分页信息
+        PageInfo<CategoryDto> pageInfo = new PageInfo<>(list);
+
+        return new PageVo<>(pageInfo.getTotal(), pageInfo.getList());
     }
 }

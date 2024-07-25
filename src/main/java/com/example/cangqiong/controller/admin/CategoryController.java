@@ -53,5 +53,12 @@ public class CategoryController {
         return Result.success(categoryService.list(type));
     }
 
+    @GetMapping("/page")
+    public Result page(@RequestParam(defaultValue = "1") Integer page,
+                       @RequestParam(defaultValue = "10") Integer pageSize,
+                       String name, String type) {
+        return Result.success(categoryService.page(page, pageSize, name, type));
+    }
+
 
 }
