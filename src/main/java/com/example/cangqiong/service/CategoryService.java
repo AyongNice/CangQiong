@@ -47,7 +47,7 @@ public class CategoryService {
         return categoryMapper.list(type);
     }
 
-    public PageVo page(Integer pageNum, Integer pageSize, String name, String type) {
+    public PageVo<CategoryDto> page(Integer pageNum, Integer pageSize, String name, String type) {
 
         PageHelper.startPage(pageNum, pageSize);
         List<CategoryDto> list = categoryMapper.page(name, type);

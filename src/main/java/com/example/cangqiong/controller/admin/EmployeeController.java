@@ -13,6 +13,7 @@ import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
 import com.example.cangqiong.vo.EmployeeLoginVO;
 
+import com.example.cangqiong.vo.PageVo;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class EmployeeController {
      * @return
      */
     @PostMapping("/login")
-    public Result login(@RequestBody LongDto loginDto) {
+    public Result<EmployeeLoginVO> login(@RequestBody LongDto loginDto) {
 
         EmployeeLoginVO employeeLoginVO = loginService.checkPassword(loginDto);
 
@@ -60,7 +61,7 @@ public class EmployeeController {
      */
 
     @GetMapping("/logout")
-    public Result logout(@RequestHeader("Token") String token) {
+    public Result<String> logout(@RequestHeader("Token") String token) {
 
         Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
         loginService.logout(claims);
@@ -71,7 +72,7 @@ public class EmployeeController {
      * 新增员工
      */
     @PostMapping
-    public Result addEmployee(@RequestBody User user, @RequestHeader("Token") String token) {
+    public Result<String> addEmployee(@RequestBody User user, @RequestHeader("Token") String token) {
 
         Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
 
@@ -90,9 +91,9 @@ public class EmployeeController {
      * @return
      */
     @GetMapping("/page")
-    public Result addEmployee(@RequestParam(defaultValue = "1") Integer pageNum,
-                              @RequestParam(defaultValue = "10") Integer pageSize,
-                              String name) {
+    public Result<PageVo<User>> addEmployee(@RequestParam(defaultValue = "1") Integer pageNum,
+                                      @RequestParam(defaultValue = "10") Integer pageSize,
+                                      String name) {
 
         return Result.success(loginService.page(pageNum, pageSize, name));
     }
@@ -107,7 +108,7 @@ public class EmployeeController {
      */
 
     @PutMapping("/editPassword")
-    public Result editPassword(@RequestBody EditPasswordDto editPasswordDto, @RequestHeader("Token") String token) {
+    public Result<String> editPassword(@RequestBody EditPasswordDto editPasswordDto, @RequestHeader("Token") String token) {
 
 
         Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
@@ -120,7 +121,7 @@ public class EmployeeController {
      * 根据Id查询员工
      */
     @GetMapping("/{id}")
-    public Result getEmployeeById(@PathVariable String id) {
+    public Result<User> getEmployeeById(@PathVariable String id) {
 
         return Result.success(loginService.getEmployeeById(id));
     }
@@ -133,7 +134,7 @@ public class EmployeeController {
      * @return
      */
     @PutMapping
-    public Result editEmployee(@RequestBody User user) {
+    public Result<String> editEmployee(@RequestBody User user) {
 
         return loginService.editEmployee(user) == 1 ? Result.success() : Result.error("修改失败");
     }

@@ -7,12 +7,15 @@ import com.example.cangqiong.dto.CategoryDto;
 import com.example.cangqiong.service.CategoryService;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
+import com.example.cangqiong.vo.PageVo;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 菜品分类接口
@@ -35,7 +38,7 @@ public class CategoryController {
 
 
     @PostMapping
-    public Result addCategory(@RequestBody CategoryDto categoryDto, @RequestHeader("Token") String token) {
+    public Result<String> addCategory(@RequestBody CategoryDto categoryDto, @RequestHeader("Token") String token) {
         Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
 
         categoryDto.setCreateUser(String.valueOf(claims.get(JwtClaims.EMP_ID)));
@@ -49,14 +52,14 @@ public class CategoryController {
      */
 
     @GetMapping("/list")
-    public Result list(@Param("type") Integer type) {
+    public Result<List<CategoryDto>> list(@Param("type") Integer type) {
         return Result.success(categoryService.list(type));
     }
 
     @GetMapping("/page")
-    public Result page(@RequestParam(defaultValue = "1") Integer page,
-                       @RequestParam(defaultValue = "10") Integer pageSize,
-                       String name, String type) {
+    public Result<PageVo<CategoryDto>> page(@RequestParam(defaultValue = "1") Integer page,
+                                            @RequestParam(defaultValue = "10") Integer pageSize,
+                                            String name, String type) {
         return Result.success(categoryService.page(page, pageSize, name, type));
     }
 

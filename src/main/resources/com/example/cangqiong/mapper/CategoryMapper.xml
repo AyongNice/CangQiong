@@ -9,4 +9,17 @@
         insert into category (type, name, sort, status,  create_time, create_user, update_time, update_user)
         values (#{type},#{name}, #{sort}, #{status} ,#{createTime}, #{createUser}, #{updateTime}, #{updateUser})
     </insert>
+    <select id="page" >
+        select * from category
+        <where>
+            <if test="name != null">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
+        </where>
+#         根据sort排序
+        order by sort desc
+    </select>
 </mapper>
