@@ -5,7 +5,8 @@
 <mapper namespace="com.example.cangqiong.mapper.SetmealMapper">
 
     <insert id="addSetmeal">
-        insert into setmeal (name,
+        insert into setmeal (id,
+                             name,
                              category_id,
                              price,
                              description,
@@ -15,7 +16,8 @@
                              update_user,
                              create_time,
                              create_user)
-        values (#{name},
+        values (#{id}
+                #{name},
                 #{categoryId},
                 #{price},
                 #{description},
