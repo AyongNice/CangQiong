@@ -26,7 +26,7 @@ public class DishDto {
     private String id;
     private String name;
     private String categoryId;
-    private String price;
+    private Integer price;
     private String image;
     private String description;
     private String status;

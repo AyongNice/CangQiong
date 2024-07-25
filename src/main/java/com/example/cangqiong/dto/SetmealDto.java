@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -35,9 +36,11 @@ public class SetmealDto {
     private Integer status;
     private LocalDateTime updateTime;
     private LocalDateTime createTime;
-
+    private Integer price;
     private String updateUser;
-    private Integer id;
+    private Long id;
     private Integer categoryId;
-    private String categoryName;
+    private String  categoryName;
+    private String createName;
+    private List<SetmealDishesDto> setmealDishes;
 }

@@ -7,11 +7,16 @@ import com.example.cangqiong.dto.SetmealDto;
 import com.example.cangqiong.service.SetmealService;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
+import com.example.cangqiong.vo.PageVo;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.SecureRandom;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/setmeal")
@@ -26,6 +31,7 @@ public class SetmealController {
     @Autowired
     JwtProperties jwtProperties;
 
+
     @PostMapping
     public Result<String> addSetmeal(@RequestBody SetmealDto setmealDto, @RequestHeader("Token") String token) {
 
@@ -35,6 +41,22 @@ public class SetmealController {
 
         return setmealService.addSetmeal(setmealDto) == 1 ? Result.success() : Result.error("添加失败");
 
+    }
+
+
+    @GetMapping("/{id}")
+    public Result<SetmealDto> getSetmeal(@PathVariable Integer id) {
+        return Result.success(setmealService.getSetmeal(id));
+    }
+
+    @GetMapping("/page")
+    public Result<PageVo<SetmealDto>> page(@RequestParam(defaultValue = "1") Integer page,
+                                           @RequestParam(defaultValue = "10") Integer pageSize,
+                                           @Param("mame") String name,
+                                           @Param("status") String status,
+                                           @Param("categoryId") String categoryId
+    ) {
+        return Result.success(setmealService.page(page, pageSize, name, status, categoryId));
     }
 
 
