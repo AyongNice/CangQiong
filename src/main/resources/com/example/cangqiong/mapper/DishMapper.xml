@@ -52,7 +52,7 @@
             <if test="categoryId != null">
                 AND category_id = #{categoryId}
             </if>
-            <if test="status != null">
+            <if test="status != null and status != ''">
                 AND status = #{status}
             </if>
         </where>

@@ -16,7 +16,7 @@
                              update_user,
                              create_time,
                              create_user)
-        values (#{id}
+        values (#{id},
                 #{name},
                 #{categoryId},
                 #{price},
@@ -28,6 +28,7 @@
                 #{createTime},
                 #{createUser})
     </insert>
+
     <insert id="addSetmealDishes">
         insert into setmeal_dish (
         setmeal_id,

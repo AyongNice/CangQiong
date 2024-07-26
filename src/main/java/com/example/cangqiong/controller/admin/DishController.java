@@ -55,7 +55,7 @@ public class DishController {
     @GetMapping("/page")
     public Result<PageVo<DishDto>> page(@RequestParam(defaultValue = "1") Integer pageNum,
                                         @RequestParam(defaultValue = "10") Integer pageSize,
-                                        @Param("name") String name, @Param("status") String status, @Param("categoryId") String categoryId) {
+                                        @Param("name") String name,  String status, @Param("categoryId") String categoryId) {
         return Result.success(dishService.page(pageNum, pageSize, categoryId, name, status));
     }
 

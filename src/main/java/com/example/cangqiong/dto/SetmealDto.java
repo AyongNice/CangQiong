@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,9 +39,9 @@ public class SetmealDto {
     private LocalDateTime createTime;
     private Integer price;
     private String updateUser;
-    private Long id;
+    private String id;
     private Integer categoryId;
-    private String  categoryName;
+    private String categoryName;
     private String createName;
     private List<SetmealDishesDto> setmealDishes;
 }

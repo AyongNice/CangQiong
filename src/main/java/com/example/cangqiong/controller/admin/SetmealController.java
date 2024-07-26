@@ -39,13 +39,29 @@ public class SetmealController {
 
         setmealDto.setCreateUser(String.valueOf(claims.get(JwtClaims.EMP_ID)));
 
-        return setmealService.addSetmeal(setmealDto) == 1 ? Result.success() : Result.error("添加失败");
+        return setmealService.addSetmeal(setmealDto) >0 ? Result.success() : Result.error("修改失败");
 
+    }
+
+    /**
+     * 修改套餐
+     *
+     * @param id
+     * @return
+     */
+    @PutMapping
+    public Result<String> editSetmeal(@RequestBody SetmealDto setmealDto, @RequestHeader("Token") String token) {
+
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+
+        setmealDto.setUpdateUser(String.valueOf(claims.get(JwtClaims.EMP_ID)));
+
+        return setmealService.editSetmeal(setmealDto) == 1 ? Result.success() : Result.error("修改失败");
     }
 
 
     @GetMapping("/{id}")
-    public Result<SetmealDto> getSetmeal(@PathVariable Integer id) {
+    public Result<SetmealDto> getSetmeal(@PathVariable String id) {
         return Result.success(setmealService.getSetmeal(id));
     }
 

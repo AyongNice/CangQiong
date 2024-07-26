@@ -80,7 +80,7 @@ public class CategoryController {
     @GetMapping("/page")
     public Result<PageVo<CategoryDto>> page(@RequestParam(defaultValue = "1") Integer page,
                                             @RequestParam(defaultValue = "10") Integer pageSize,
-                                            String name, String type) {
+                                            @Param("name") String name, String type) {
         return Result.success(categoryService.page(page, pageSize, name, type));
     }
 

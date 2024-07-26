@@ -12,6 +12,8 @@ public interface DishMapper {
 
     public Integer addDish(DishDto dishDto);
 
+
+//    @Select("select * from dish where category_id = #{categoryId} and name like concat('%',#{name},'%') and status = #{status}")
     public List<DishDto> page(String categoryId, String name, String status);
 
 

@@ -9,9 +9,9 @@ import lombok.Data;
 @Data
 public class SetmealDishesDto {
     private Integer id;
-    private Long setmealId;
+    private String setmealId;
     private Integer dishId;
     private String name;
     private Integer copies;
-    private String price;
+    private Integer price;
 }

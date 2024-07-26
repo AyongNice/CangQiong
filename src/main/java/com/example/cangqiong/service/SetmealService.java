@@ -1,8 +1,10 @@
 package com.example.cangqiong.service;
 
 
+import com.example.cangqiong.dto.SetmealDishesDto;
 import com.example.cangqiong.dto.SetmealDto;
 import com.example.cangqiong.mapper.SetmealMapper;
+import com.example.cangqiong.utlis.Result;
 import com.example.cangqiong.vo.PageVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -27,16 +29,17 @@ public class SetmealService {
         setmealDto.setUpdateTime(LocalDateTime.now());
         Long setmealId = System.currentTimeMillis();
 
-        setmealDto.setId(Long.valueOf(setmealId.toString()));
+        setmealDto.setId( setmealId.toString());
 
         //循环 getSetmealDishes() 拆入  setmealId
         setmealDto.getSetmealDishes().forEach(setmealDishesDto -> {
-            setmealDishesDto.setSetmealId(Long.valueOf(setmealId.toString()));
+            setmealDishesDto.setSetmealId(setmealId.toString());
         });
 
 
 //        try {
         setmealMapper.addSetmealDishes(setmealDto.getSetmealDishes());
+
         return setmealMapper.addSetmeal(setmealDto);
 //        } catch (Exception e) {
 //            return 0;
@@ -56,7 +59,35 @@ public class SetmealService {
 
     }
 
-    public SetmealDto getSetmeal(Integer id) {
-        return setmealMapper.getSetmeal(id);
+
+
+    public SetmealDto getSetmeal(String id) {
+
+        List<SetmealDishesDto>  list   =  setmealMapper.getSetmealDishes(id);
+
+        SetmealDto setmealDto =setmealMapper.getSetmeal(id);
+        setmealDto.setSetmealDishes(list);
+
+        return setmealDto;
+    }
+
+
+    @Transactional
+    public Integer editSetmeal(SetmealDto setmealDto) {
+        setmealDto.setUpdateTime(LocalDateTime.now());
+
+        //删除之前原有的套餐 菜品关联
+        setmealMapper.deleteSetmealDishes(setmealDto.getId());
+
+
+//        //添加菜品关联套餐setmealId
+        setmealDto.getSetmealDishes().forEach(setmealDishesDto -> {
+            setmealDishesDto.setSetmealId(setmealDto.getId());
+        });
+
+        //新增信的菜品关联
+        setmealMapper.addSetmealDishes(setmealDto.getSetmealDishes());
+
+       return setmealMapper.editSetmeal(setmealDto);
     }
 }
