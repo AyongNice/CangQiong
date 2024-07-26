@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin/setmeal")
@@ -32,6 +35,14 @@ public class SetmealController {
     JwtProperties jwtProperties;
 
 
+    /**
+     * 套餐新增
+     *
+     * @param setmealDto
+     * @param token
+     * @return
+     */
+
     @PostMapping
     public Result<String> addSetmeal(@RequestBody SetmealDto setmealDto, @RequestHeader("Token") String token) {
 
@@ -39,7 +50,7 @@ public class SetmealController {
 
         setmealDto.setCreateUser(String.valueOf(claims.get(JwtClaims.EMP_ID)));
 
-        return setmealService.addSetmeal(setmealDto) >0 ? Result.success() : Result.error("修改失败");
+        return setmealService.addSetmeal(setmealDto) > 0 ? Result.success() : Result.error("修改失败");
 
     }
 
@@ -60,11 +71,19 @@ public class SetmealController {
     }
 
 
+    /**
+     * 套餐根据id查询
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public Result<SetmealDto> getSetmeal(@PathVariable String id) {
         return Result.success(setmealService.getSetmeal(id));
     }
 
+
+    //分页
     @GetMapping("/page")
     public Result<PageVo<SetmealDto>> page(@RequestParam(defaultValue = "1") Integer page,
                                            @RequestParam(defaultValue = "10") Integer pageSize,
@@ -73,6 +92,21 @@ public class SetmealController {
                                            @Param("categoryId") String categoryId
     ) {
         return Result.success(setmealService.page(page, pageSize, name, status, categoryId));
+    }
+
+    @DeleteMapping
+    public Result<String> deleteSetmeal(@RequestParam String ids) {
+        //将ids字符串转换为字符串集合List
+        String[] split = ids.split(",");
+
+        return setmealService.deleteSetmeal(split) > 0 ? Result.success() : Result.error("删除失败");
+    }
+
+    @PostMapping("/status/{status}")
+    public Result<String> editStatus(@PathVariable String status, @Param("id") String id) {
+
+
+        return setmealService.editStatus(status, id) > 0 ? Result.success() : Result.error("修改失败");
     }
 
 

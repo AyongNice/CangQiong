@@ -40,7 +40,7 @@ public class DishController {
 
 
     @PostMapping
-    public Result addDish(@RequestBody DishDto dishDto, @RequestHeader("Token") String token) {
+    public Result<String> addDish(@RequestBody DishDto dishDto, @RequestHeader("Token") String token) {
         Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
 
         dishDto.setCreateUser(String.valueOf(claims.get(JwtClaims.EMP_ID)));
@@ -49,14 +49,25 @@ public class DishController {
 
 
     /**
+     * 修改菜品
+     */
+    @PutMapping
+    public Result<String> editDish(@RequestBody DishDto dishDto, @RequestHeader("Token") String token) {
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+        dishDto.setUpdateUser(String.valueOf(claims.get(JwtClaims.EMP_ID)));
+        return dishService.editDish(dishDto) == 1 ? Result.success() : Result.error("修改失败");
+    }
+
+
+    /**
      * 查询分页
      */
 
     @GetMapping("/page")
-    public Result<PageVo<DishDto>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<PageVo<DishDto>> page(@RequestParam(defaultValue = "1") Integer page,
                                         @RequestParam(defaultValue = "10") Integer pageSize,
-                                        @Param("name") String name,  String status, @Param("categoryId") String categoryId) {
-        return Result.success(dishService.page(pageNum, pageSize, categoryId, name, status));
+                                        @Param("name") String name, String status, @Param("categoryId") String categoryId) {
+        return Result.success(dishService.page(page, pageSize, categoryId, name, status));
     }
 
 
@@ -68,6 +79,14 @@ public class DishController {
 
         return Result.success(dishService.list(categoryId));
 
+    }
+
+    /**
+     * 根据id查询菜品
+     */
+    @GetMapping("/{id}")
+    public Result<DishDto> getDishById(@PathVariable String id) {
+        return Result.success(dishService.getDishById(id));
     }
 
 }

@@ -5,10 +5,11 @@
 <mapper namespace="com.example.cangqiong.mapper.DishMapper">
 
     <insert id="addDish">
-        insert into dish (name,
+        insert into dish (
+                          id,
+                          name,
                           category_id,
                           price,
-                          create_user,
                           description,
                           image,
                           status,
@@ -17,21 +18,37 @@
                           create_time,
                           create_user)
 
-        values (#{name},
+        values (
+                #{id},
+                #{name},
                 #{categoryId},
                 #{price},
-                #{createUser},
                 #{description},
                 #{image},
                 #{status},
                 #{updateTime},
                 #{updateUser},
                 #{createTime},
-                #{createUser}
-                )
+                #{createUser})
     </insert>
 
-    <select id="page"  resultType="com.example.cangqiong.dto.DishDto" >
+
+    <insert id="addFlavors">
+        insert into dish_flavor (
+        dish_id,
+        name,
+        value
+        )
+        values
+        <if test="flavors != null and flavors.size() > 0">
+            <foreach item="item" index="index" collection="flavors" open="(" separator="),(" close=")">
+                #{item.dishId}, #{item.name}, #{item.value}
+            </foreach>
+        </if>
+
+    </insert>
+
+    <select id="page" resultType="com.example.cangqiong.dto.DishDto">
         select
         id,
         name,

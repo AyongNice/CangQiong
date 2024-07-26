@@ -1,6 +1,7 @@
 package com.example.cangqiong.service;
 
 
+import com.example.cangqiong.dto.DishDto;
 import com.example.cangqiong.dto.SetmealDishesDto;
 import com.example.cangqiong.dto.SetmealDto;
 import com.example.cangqiong.mapper.SetmealMapper;
@@ -29,7 +30,7 @@ public class SetmealService {
         setmealDto.setUpdateTime(LocalDateTime.now());
         Long setmealId = System.currentTimeMillis();
 
-        setmealDto.setId( setmealId.toString());
+        setmealDto.setId(setmealId.toString());
 
         //循环 getSetmealDishes() 拆入  setmealId
         setmealDto.getSetmealDishes().forEach(setmealDishesDto -> {
@@ -60,12 +61,11 @@ public class SetmealService {
     }
 
 
-
     public SetmealDto getSetmeal(String id) {
 
-        List<SetmealDishesDto>  list   =  setmealMapper.getSetmealDishes(id);
+        List<SetmealDishesDto> list = setmealMapper.getSetmealDishes(id);
 
-        SetmealDto setmealDto =setmealMapper.getSetmeal(id);
+        SetmealDto setmealDto = setmealMapper.getSetmeal(id);
         setmealDto.setSetmealDishes(list);
 
         return setmealDto;
@@ -80,14 +80,30 @@ public class SetmealService {
         setmealMapper.deleteSetmealDishes(setmealDto.getId());
 
 
-//        //添加菜品关联套餐setmealId
-        setmealDto.getSetmealDishes().forEach(setmealDishesDto -> {
-            setmealDishesDto.setSetmealId(setmealDto.getId());
-        });
+        if (setmealDto.getSetmealDishes().size() > 0) {
+            //添加菜品关联套餐setmealId
+            setmealDto.getSetmealDishes().forEach(setmealDishesDto -> {
+                setmealDishesDto.setSetmealId(setmealDto.getId());
+            });
 
-        //新增信的菜品关联
-        setmealMapper.addSetmealDishes(setmealDto.getSetmealDishes());
+            //新增信的菜品关联
+            setmealMapper.addSetmealDishes(setmealDto.getSetmealDishes());
 
-       return setmealMapper.editSetmeal(setmealDto);
+        }
+
+        return setmealMapper.editSetmeal(setmealDto);
+    }
+
+
+    @Transactional
+    public Integer deleteSetmeal(String[] ids) {
+        setmealMapper.deleteSetmealDishesList(ids);
+        return setmealMapper.deleteSetmeal(ids);
+    }
+
+
+    //启售 停售
+    public Integer editStatus(String status, String id) {
+        return setmealMapper.editStatus(status, id);
     }
 }
