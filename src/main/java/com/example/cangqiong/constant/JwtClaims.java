@@ -9,4 +9,10 @@ public class JwtClaims {
     public static final String NAME = "name";
 
     public static final String KOKENKEY = "token:";
+
+
+    //微信小程序用户唯一id
+    public static final String CLOUD_ID = "cloudID";
+    //店铺标识
+    public static final String STORE_ADMIN = "storeadmin:";
 }

@@ -19,7 +19,7 @@ public interface CategoryMapper {
     public Integer addCategory(CategoryDto categoryDto);
 
 
-    @Select("select * from category where type = #{type}")
+
     public List<CategoryDto> list(Integer type);
 
     public List<CategoryDto> page(String name, String type);

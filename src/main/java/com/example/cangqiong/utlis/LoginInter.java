@@ -1,6 +1,9 @@
 package com.example.cangqiong.utlis;
 
 
+import com.example.cangqiong.config.AuthenticationHeaderStrategy;
+import com.example.cangqiong.config.AuthenticationStrategy;
+import com.example.cangqiong.config.TokenAuthenticationStrategy;
 import com.example.cangqiong.constant.JwtClaims;
 import com.example.cangqiong.constant.JwtProperties;
 import io.jsonwebtoken.Claims;
@@ -22,11 +25,23 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class LoginInter implements HandlerInterceptor {
 
     private JwtProperties jwtProperties;
-    private StringRedisTemplate strRidesT;
+
+
+    //管理端 token
+    private AuthenticationStrategy tokenAuthenticationStrategy;
+
+
+    //小程序 Authentica
+    private AuthenticationStrategy authenticationHeaderStrategy;
+
 
     public LoginInter(JwtProperties jwtProperties, StringRedisTemplate strRidesT) {
+
         this.jwtProperties = jwtProperties;
-        this.strRidesT = strRidesT;
+        this.tokenAuthenticationStrategy = new TokenAuthenticationStrategy(jwtProperties, strRidesT);
+
+        this.authenticationHeaderStrategy = new AuthenticationHeaderStrategy(jwtProperties, strRidesT);
+
     }
 
     /**
@@ -44,21 +59,21 @@ public class LoginInter implements HandlerInterceptor {
         //获取请求头token
         String token = request.getHeader("token");
 
-        if (token == null) return false;
+        String authentication = request.getHeader("authentication");
+
+        if (token == null && authentication == null) return false;
+
+        String tokenValue = token != null ? token : authentication;
 
         //解析token
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
-        log.info("claims" +"   "+ strRidesT.opsForValue().get(JwtClaims.KOKENKEY + claims.get(JwtClaims.EMP_ID)));
-        //不存在token返回401
-        if (strRidesT.opsForValue().get(JwtClaims.KOKENKEY + claims.get(JwtClaims.EMP_ID)) == null) {
-            response.setStatus(401);
-            return false;
-        }
-        //存在就刷新token时间有效期
-        strRidesT.opsForValue().set("token:" + claims.getId(), token, jwtProperties.getAdminTtl());
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), tokenValue);
 
-        //Redis校验是否存在
-        return true;
+        if (token != null) {
+            return tokenAuthenticationStrategy.authenticate(response, tokenValue, claims);
+        }
+
+        return authenticationHeaderStrategy.authenticate(response, tokenValue, claims);
+
 
     }
 

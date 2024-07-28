@@ -1,7 +1,7 @@
 package com.example.cangqiong.mapper;
 
 
-import com.example.cangqiong.vo.SetmealsSum;
+import com.example.cangqiong.vo.SetmealsSumVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -14,11 +14,11 @@ public interface WorkspaceMapper {
      *
      * @return
      */
+    @Select(" select sum(case when status = 0 then 1 else 0 end) as discontinued, " +
+            " sum(case when status = 1 then 1 else 0 end) as sold  from setmeal")
+    public SetmealsSumVo overviewSetmeals();
 
-
-    @Select(" select sum(case when status = 0 then 1 else 0 end) as discontinued,  sum(case when status = 1 then 1 else 0 end) as sold  from setmeal")
-    public SetmealsSum overviewSetmeals();
-
-    @Select(" select sum(case when status = 0 then 1 else 0 end) as discontinued,  sum(case when status = 1 then 1 else 0 end) as sold  from dish")
-    SetmealsSum overviewDishes();
+    @Select(" select sum(case when status = 0 then 1 else 0 end) as discontinued," +
+            "  sum(case when status = 1 then 1 else 0 end) as sold  from dish")
+    public SetmealsSumVo overviewDishes();
 }

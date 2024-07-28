@@ -6,10 +6,10 @@
 
 
     <insert id="addCategory">
-        insert into category (type, name, sort, status,  create_time, create_user, update_time, update_user)
-        values (#{type},#{name}, #{sort}, #{status} ,#{createTime}, #{createUser}, #{updateTime}, #{updateUser})
+        insert into category (type, name, sort, status, create_time, create_user, update_time, update_user)
+        values (#{type}, #{name}, #{sort}, #{status}, #{createTime}, #{createUser}, #{updateTime}, #{updateUser})
     </insert>
-    <select id="page" >
+    <select id="page">
         select
         id,
         name,
@@ -32,5 +32,25 @@
         </where>
         # 根据sort排序
         order by sort desc
+    </select>
+    <select id="list" resultType="com.example.cangqiong.dto.CategoryDto">
+        select
+        id,
+        name,
+        type,
+        sort,
+        status,
+        date_format(create_time,'%Y-%m-%d') as createTime,
+        date_format(update_time, '%Y-%m-%d') as updateTime,
+        create_user as createUser,
+        update_user as updateUser
+
+        from category
+        <where>
+            <if test="type != null">
+                type = #{type}
+            </if>
+        </where>
+        # 根据sort排序
     </select>
 </mapper>

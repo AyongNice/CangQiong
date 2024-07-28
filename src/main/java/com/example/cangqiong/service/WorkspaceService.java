@@ -2,7 +2,7 @@ package com.example.cangqiong.service;
 
 
 import com.example.cangqiong.mapper.WorkspaceMapper;
-import com.example.cangqiong.vo.SetmealsSum;
+import com.example.cangqiong.vo.SetmealsSumVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +12,16 @@ public class WorkspaceService {
     @Autowired
     private WorkspaceMapper workspaceMapper;
 
-    public SetmealsSum overviewSetmeals() {
+
+    //套餐统计
+    public SetmealsSumVo overviewSetmeals() {
 
         return workspaceMapper.overviewSetmeals();
     }
 
-    public SetmealsSum overviewDishes() {
+
+    //    菜品统计
+    public SetmealsSumVo overviewDishes() {
         return workspaceMapper.overviewDishes();
     }
 }
