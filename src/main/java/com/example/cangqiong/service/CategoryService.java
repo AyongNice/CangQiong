@@ -1,8 +1,10 @@
 package com.example.cangqiong.service;
 
 
+import com.example.cangqiong.constant.UserConst;
 import com.example.cangqiong.dto.CategoryDto;
 import com.example.cangqiong.mapper.CategoryMapper;
+import com.example.cangqiong.utlis.FilePathToBase64;
 import com.example.cangqiong.utlis.Result;
 import com.example.cangqiong.vo.PageVo;
 import com.github.pagehelper.Page;
@@ -20,7 +22,6 @@ public class CategoryService {
 
     @Autowired
     CategoryMapper categoryMapper;
-
 
     /**
      * 新增

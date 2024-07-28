@@ -85,10 +85,10 @@
     </delete>
 
     <select id="page" resultType="com.example.cangqiong.dto.SetmealDto">
-        select t1.name,
+        select
+        t1.name,
         t1.category_id as categoryId,
-        t3.name as categoryName,
-        t2.name as createName,
+        t2.name as categoryName,
         t1.price,
         t1.description,
         t1.image,
@@ -97,19 +97,22 @@
         t1.update_user as updateUser,
         t1.create_time as createTime,
         t1.create_user as createUser,
-        t1.id from setmeal as t1 , employee as t2, category as t3
+        t1.id
+        from setmeal as t1
+        inner join category as t2 on t1.category_id = t2.id
         <where>
+
             <if test="name != null">
                 and t1.name LIKE CONCAT('%', #{name}, '%')
             </if>
             <if test="categoryId != null">
                 and t1.category_id = #{categoryId}
             </if>
-            <if test="status != null and status != '' ">
-                and t1.status = #{status} and
+            <if test="status != null and status != ''">
+                and t1.status = #{status}
             </if>
-            t1.create_user = t2.id and t1.category_id = t3.id
-        </where>
 
+        </where>
     </select>
+
 </mapper>

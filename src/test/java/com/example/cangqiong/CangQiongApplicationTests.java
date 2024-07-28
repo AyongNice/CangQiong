@@ -9,7 +9,8 @@ class CangQiongApplicationTests {
 
     @Test
     void contextLoads() {
-        String password = "123456";
+        String password = "qwerty";
+
 
         System.out.println(DigestUtils.md5DigestAsHex(password.getBytes()));
     }

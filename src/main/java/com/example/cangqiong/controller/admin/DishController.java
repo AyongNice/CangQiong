@@ -4,7 +4,6 @@ package com.example.cangqiong.controller.admin;
 import com.example.cangqiong.constant.JwtClaims;
 import com.example.cangqiong.constant.JwtProperties;
 import com.example.cangqiong.dto.DishDto;
-import com.example.cangqiong.mapper.DishMapper;
 import com.example.cangqiong.service.DishService;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
@@ -87,6 +86,19 @@ public class DishController {
     @GetMapping("/{id}")
     public Result<DishDto> getDishById(@PathVariable String id) {
         return Result.success(dishService.getDishById(id));
+    }
+
+    /**
+     * 更改菜品状态
+     */
+    @PostMapping("/status/{status}")
+    public Result<String> editStatus(@PathVariable String status, @Param("id") String id) {
+        return dishService.editStatus(status, id) == 1 ? Result.success() : Result.error("修改失败");
+    }
+
+    @DeleteMapping
+    public Result<String> deleteDish(String ids) {
+        return dishService.deleteDish(ids) >0 ? Result.success() : Result.error("删除失败");
     }
 
 }

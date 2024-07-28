@@ -25,7 +25,7 @@ public interface DishMapper {
     public List<DishDto> list(String categoryId);
 
 
-    @Select("select * from dish where id = #{id}")
+//    @Select("select * from dish where id = #{id}")
     public DishDto getDishById(String id);
 
     public void addFlavors(List<Flavor> flavors);
@@ -40,4 +40,11 @@ public interface DishMapper {
 
     @Update("update dish set name = #{name}, category_id = #{categoryId}, description = #{description}, image = #{image}, price = #{price}, status = #{status} where id = #{id}")
     public Integer editDish(DishDto dishDto);
+
+
+    @Update("update dish set status = #{status} where id = #{id}")
+    public Integer editStatus(String status, String id);
+
+
+    public Integer deleteDish(String[] ids);
 }

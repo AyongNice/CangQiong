@@ -5,8 +5,7 @@
 <mapper namespace="com.example.cangqiong.mapper.DishMapper">
 
     <insert id="addDish">
-        insert into dish (
-                          id,
+        insert into dish (id,
                           name,
                           category_id,
                           price,
@@ -18,8 +17,7 @@
                           create_time,
                           create_user)
 
-        values (
-                #{id},
+        values (#{id},
                 #{name},
                 #{categoryId},
                 #{price},
@@ -48,30 +46,69 @@
 
     </insert>
 
+    <delete id="deleteDish">
+        delete from dish
+
+        <choose>
+            <when test="ids != null and ids.length > 0">
+                <where>
+                    id in
+                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+
+                </where>
+            </when>
+            <otherwise>
+                -- #如果没有提供ID，则不执行删除操作
+            </otherwise>
+        </choose>
+
+    </delete>
+
     <select id="page" resultType="com.example.cangqiong.dto.DishDto">
         select
-        id,
-        name,
-        price,
-        status,
-        category_id as categoryId,
-        create_time as createTime,
-        create_user as createUser,
-        description,
-        image,
-        update_time as updateTime,
-        update_user as updateUser
-        from dish
+        t1.id,
+        t1.name,
+        t2.name as categoryName,
+        t1.price,
+        t1.status,
+        t1.category_id as categoryId,
+        t1.create_time as createTime,
+        t1. create_user as createUser,
+        t1. description,
+        t1. image,
+        t1. update_time as updateTime,
+        t1. update_user as updateUser
+        from dish t1 inner join category as t2 on t1.category_id = t2.id
         <where>
             <if test="name != null">
-                AND name LIKE CONCAT('%', #{name}, '%')
+                and t1.name like CONCAT('%', #{name}, '%')
             </if>
             <if test="categoryId != null">
-                AND category_id = #{categoryId}
+                and t1.category_id = #{categoryId}
             </if>
             <if test="status != null and status != ''">
-                AND status = #{status}
+                and t1.status = #{status}
             </if>
         </where>
     </select>
+
+
+    <select id="getDishById" resultType="com.example.cangqiong.dto.DishDto">
+        select t1.id,
+               t1.name,
+               t1.description,
+               t1.image,
+               t1.price,
+               t1.status,
+               t1.category_id as categoryId,
+               t2.name as categoryName
+        from dish as t1,
+             category as t2
+        where t1.category_id = t2.id
+          and t1.id = #{id}
+    </select>
+
+
 </mapper>

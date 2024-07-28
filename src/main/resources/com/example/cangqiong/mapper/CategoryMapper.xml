@@ -10,7 +10,18 @@
         values (#{type},#{name}, #{sort}, #{status} ,#{createTime}, #{createUser}, #{updateTime}, #{updateUser})
     </insert>
     <select id="page" >
-        select * from category
+        select
+        id,
+        name,
+        type,
+        sort,
+        status,
+        date_format(create_time,'%Y-%m-%d') as createTime,
+        date_format(update_time, '%Y-%m-%d') as updateTime,
+        create_user as createUser,
+        update_user as updateUser
+
+        from category
         <where>
             <if test="name != null">
                 AND name LIKE CONCAT('%', #{name}, '%')
@@ -19,7 +30,7 @@
                 AND type = #{type}
             </if>
         </where>
-#         根据sort排序
+        # 根据sort排序
         order by sort desc
     </select>
 </mapper>

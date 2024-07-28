@@ -1,7 +1,6 @@
 package com.example.cangqiong.vo;
 
 
-import com.example.cangqiong.dto.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

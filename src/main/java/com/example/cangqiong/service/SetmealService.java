@@ -1,10 +1,13 @@
 package com.example.cangqiong.service;
 
 
+import com.example.cangqiong.aop.ConvertImageToBase64;
+import com.example.cangqiong.constant.UserConst;
 import com.example.cangqiong.dto.DishDto;
 import com.example.cangqiong.dto.SetmealDishesDto;
 import com.example.cangqiong.dto.SetmealDto;
 import com.example.cangqiong.mapper.SetmealMapper;
+import com.example.cangqiong.utlis.FilePathToBase64;
 import com.example.cangqiong.utlis.Result;
 import com.example.cangqiong.vo.PageVo;
 import com.github.pagehelper.PageHelper;
@@ -24,39 +27,51 @@ public class SetmealService {
     private SetmealMapper setmealMapper;
 
 
+    @Autowired
+    private FilePathToBase64 filePathToBase64;
+
+
     @Transactional
     public Integer addSetmeal(SetmealDto setmealDto) {
         setmealDto.setCreateTime(LocalDateTime.now());
         setmealDto.setUpdateTime(LocalDateTime.now());
-        Long setmealId = System.currentTimeMillis();
 
-        setmealDto.setId(setmealId.toString());
+        //生成套餐id
+        long setmealId = System.currentTimeMillis();
+
+        setmealDto.setId(Long.toString(setmealId));
 
         //循环 getSetmealDishes() 拆入  setmealId
         setmealDto.getSetmealDishes().forEach(setmealDishesDto -> {
-            setmealDishesDto.setSetmealId(setmealId.toString());
+            setmealDishesDto.setSetmealId(Long.toString(setmealId));
         });
 
 
-//        try {
         setmealMapper.addSetmealDishes(setmealDto.getSetmealDishes());
 
         return setmealMapper.addSetmeal(setmealDto);
-//        } catch (Exception e) {
-//            return 0;
-//        }
+
 
     }
 
+
+    @ConvertImageToBase64
+    public List<SetmealDto> getList(String name, String status, String categoryId) {
+        return setmealMapper.page(name, status, categoryId);
+    }
+
+
+    @ConvertImageToBase64
     public PageVo<SetmealDto> page(Integer page, Integer pageSize, String name, String status, String categoryId) {
 
         PageHelper.startPage(page, pageSize);
-        List<SetmealDto> list = setmealMapper.page(name, status, categoryId);
-
+        List<SetmealDto> list = getList(name, status, categoryId);
+        list.forEach(setmealDto -> {
+            setmealDto.setImage(UserConst.mimeTypePrefix + filePathToBase64.convertFilePathToBase64(setmealDto.getImage()));
+        });
+        //分页数据
         PageInfo<SetmealDto> pageInfo = new PageInfo<>(list);
-
         return new PageVo<>(pageInfo.getTotal(), pageInfo.getList());
-
 
     }
 
@@ -67,6 +82,7 @@ public class SetmealService {
 
         SetmealDto setmealDto = setmealMapper.getSetmeal(id);
         setmealDto.setSetmealDishes(list);
+        setmealDto.setImage(UserConst.mimeTypePrefix + filePathToBase64.convertFilePathToBase64(setmealDto.getImage()));
 
         return setmealDto;
     }
