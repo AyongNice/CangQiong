@@ -20,9 +20,10 @@ import java.util.List;
 /**
  * 菜品管理
  */
+
+@Slf4j
 @RestController
 @RequestMapping("/admin/dish")
-@Slf4j
 public class DishController {
 
     @Autowired

@@ -2,8 +2,12 @@ package com.example.cangqiong.service;
 
 
 import com.example.cangqiong.constant.JwtClaims;
+import com.example.cangqiong.constant.JwtProperties;
 import com.example.cangqiong.mapper.ShopMapper;
+import com.example.cangqiong.utlis.JwtUtil;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,10 @@ public class ShopService {
     @Autowired
     private StringRedisTemplate strRidesT;
 
+    // RedisTemplate
+    @Qualifier("jwtProperties")
+    @Autowired
+    JwtProperties jwtProperties;
 
     /**
      * 获取商铺状态
@@ -35,7 +43,11 @@ public class ShopService {
      * @param id     商铺id
      * @param status 店铺状态
      */
-    public void setShopStatus(String id, String status) {
-        strRidesT.opsForValue().set(JwtClaims.STORE_ADMIN + id, status);
+    public void setShopStatus(String token, String status) {
+
+        //解析令牌获取id
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+
+        strRidesT.opsForValue().set(JwtClaims.STORE_ADMIN + claims.get(JwtClaims.EMP_ID), status);
     }
 }

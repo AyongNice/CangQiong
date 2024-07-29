@@ -20,7 +20,7 @@ public class ShopController {
     @GetMapping("/status")
     public Result<Integer> getShopStatus(@RequestHeader("Token") String token) {
 
-        return Result.success(shopService.getShopStatus(token));
+        return Result.success(shopService.getShopStatus("1"));
 
     }
 
