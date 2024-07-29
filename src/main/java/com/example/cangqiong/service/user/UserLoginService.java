@@ -4,7 +4,9 @@ package com.example.cangqiong.service.user;
 import com.example.cangqiong.constant.JwtClaims;
 import com.example.cangqiong.constant.JwtProperties;
 import com.example.cangqiong.dto.UserLoginDto;
+import com.example.cangqiong.mapper.ShopMapper;
 import com.example.cangqiong.utlis.JwtUtil;
+import com.example.cangqiong.vo.StoreVo;
 import com.example.cangqiong.vo.UserLoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -24,6 +27,14 @@ public class UserLoginService {
 
     @Autowired
     private StringRedisTemplate strRiesT;
+    
+    @Autowired
+    private ShopMapper shopMapper;
+
+    public   List<StoreVo> storeList() {
+      return shopMapper.storeList();
+        
+    }
 
 
     public UserLoginVo login(UserLoginDto userLoginDto) {
