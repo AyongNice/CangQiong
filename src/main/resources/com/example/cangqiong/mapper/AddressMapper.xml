@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cangqiong.mapper.AddressMapper">
+
+
+    <insert id="addAddress">
+        insert into address_book(city_code,
+                                 city_name,
+                                 consignee,
+                                 detail,
+                                 district_code,
+                                 district_name,
+                                 id,
+                                 is_default,
+                                 label,
+                                 phone,
+                                 province_code,
+                                 province_name,
+                                 sex,
+                                 user_id)
+        values (#{cityCode}, #{cityName}, #{consignee}, #{detail}, #{districtCode}, #{districtName}, #{id},
+                #{isDefault}, #{label}, #{phone}, #{provinceCode}, #{provinceName}, #{sex}, #{userId})
+
+    </insert>
+</mapper>

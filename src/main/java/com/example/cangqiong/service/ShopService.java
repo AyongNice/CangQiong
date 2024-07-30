@@ -39,9 +39,7 @@ public class ShopService {
 
         String value = strRidesT.opsForValue().get(JwtClaims.STORE_ADMIN + id);
 
-        log.info(String.valueOf(Integer.parseInt(value)));
-
-        return Integer.parseInt(value);
+        return value != null ? Integer.parseInt(value) : 0;
 
     }
 

@@ -58,6 +58,6 @@ public class UserLoginService {
         });
 
 
-        return storeMapper.getStoreList();
+        return storeList;
     }
 }
