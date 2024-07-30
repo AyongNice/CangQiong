@@ -32,7 +32,7 @@ public class ShopController {
     @PutMapping("/{status}")
     public Result<String> setShopStatus(@PathVariable String status, @RequestHeader("Token") String token) {
 
-        shopService.setShopStatus(jwtUtil.getID(token), status);
+        shopService.setShopStatus(token, status);
 
         return Result.success("修改成功");
 
