@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cangqiong.mapper.SetmealMapper">
+
+    <insert id="addSetmeal">
+        insert into setmeal (id,
+                             name,
+                             category_id,
+                             price,
+                             description,
+                             image,
+                             status,
+                             update_time,
+                             update_user,
+                             create_time,
+                             create_user,
+                             store_id
+                             )
+        values (#{id},
+                #{name},
+                #{categoryId},
+                #{price},
+                #{description},
+                #{image},
+                #{status},
+                #{updateTime},
+                #{updateUser},
+                #{createTime},
+                #{createUser},
+                #{createUser}
+                )
+    </insert>
+
+    <insert id="addSetmealDishes">
+        insert into setmeal_dish (
+        setmeal_id,
+        dish_id,
+        name,
+        price,
+        copies
+        )
+        values
+        <foreach item="item" index="index" collection="list" open="(" separator="),(" close=")">
+            #{item.setmealId}, #{item.dishId}, #{item.name}, #{item.price}, #{item.copies}
+        </foreach>
+    </insert>
+
+    <delete id="deleteSetmeal">
+        delete from setmeal
+
+        <choose>
+            <when test="ids != null and ids.length > 0">
+                <where>
+                    id in
+                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+
+                    and store_id = #{storeId}
+
+                </where>
+            </when>
+            <otherwise>
+                -- #如果没有提供ID，则不执行删除操作
+            </otherwise>
+        </choose>
+
+    </delete>
+
+
+    <delete id="deleteSetmealDishesList">
+        delete from setmeal_dish
+
+        <choose>
+            <when test="ids != null and ids.length > 0">
+                <where>
+                    setmeal_id in
+                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+
+                </where>
+            </when>
+            <otherwise>
+                -- #如果没有提供ID，则不执行删除操作
+            </otherwise>
+        </choose>
+
+    </delete>
+
+    <select id="page" resultType="com.example.cangqiong.dto.SetmealDto">
+        select
+        t1.name,
+        t1.category_id as categoryId,
+        t2.name as categoryName,
+        t1.price,
+        t1.description,
+        t1.image,
+        t1.status,
+        t1.update_time as updateTime,
+        t1.update_user as updateUser,
+        t1.create_time as createTime,
+        t1.create_user as createUser,
+        t1.id
+        from setmeal as t1
+        inner join category as t2 on t1.category_id = t2.id
+        <where>
+
+            <if test="name != null">
+                and t1.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                and t1.category_id = #{categoryId}
+            </if>
+            <if test="status != null and status != ''">
+                and t1.status = #{status}
+            </if>
+            <if test="categoryId != null">
+                and t1.store_id = #{storeId}
+            </if>
+
+        </where>
+    </select>
+
+</mapper>
