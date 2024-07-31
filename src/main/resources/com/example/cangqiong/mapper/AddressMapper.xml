@@ -23,4 +23,24 @@
                 #{isDefault}, #{label}, #{phone}, #{provinceCode}, #{provinceName}, #{sex}, #{userId})
 
     </insert>
+    <update id="setAddressBook" parameterType="com.example.cangqiong.dto.Address">
+        UPDATE address_book
+        SET
+        city_code = #{cityCode},
+        city_name = #{cityName},
+        consignee = #{consignee},
+        detail = #{detail},
+        district_code = #{districtCode},
+        district_name = #{districtName},
+        is_default = #{isDefault},
+        label = #{label},
+        phone = #{phone},
+        province_code = #{provinceCode},
+        province_name = #{provinceName}
+        <if test="sex != null and sex != ''">
+            , sex = #{sex}
+        </if>
+        WHERE
+        id = #{id}
+    </update>
 </mapper>
