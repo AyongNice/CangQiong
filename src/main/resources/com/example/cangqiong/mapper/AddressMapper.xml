@@ -12,7 +12,6 @@
                                  detail,
                                  district_code,
                                  district_name,
-                                 id,
                                  is_default,
                                  label,
                                  phone,
@@ -20,7 +19,7 @@
                                  province_name,
                                  sex,
                                  user_id)
-        values (#{cityCode}, #{cityName}, #{consignee}, #{detail}, #{districtCode}, #{districtName}, #{id},
+        values (#{cityCode}, #{cityName}, #{consignee}, #{detail}, #{districtCode}, #{districtName} ,
                 #{isDefault}, #{label}, #{phone}, #{provinceCode}, #{provinceName}, #{sex}, #{userId})
 
     </insert>
