@@ -6,10 +6,7 @@ import com.example.cangqiong.service.user.AddiessSrever;
 import com.example.cangqiong.utlis.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -34,9 +31,9 @@ public class AddressBook {
      * @return
      */
     @PostMapping
-    public Result<Integer> addAddressBook(Address address) {
+    public Result<Integer> addAddressBook(@RequestBody Address address, @RequestHeader("authentication") String authentication) {
 
-        return Result.success(addiessSrever.addAddress(address));
+        return Result.success(addiessSrever.addAddress(address,authentication));
 
     }
 

@@ -24,12 +24,12 @@ public class AuthenticationHeaderStrategy implements AuthenticationStrategy {
     public boolean authenticate(HttpServletResponse response, String tokenValue, Claims claims) {
 
         //不存在token返回401
-        if (strRidesT.opsForValue().get(JwtClaims.KOKENKEY + claims.get(JwtClaims.EMP_ID)) == null) {
+        if (strRidesT.opsForValue().get(JwtClaims.KOKENKEY + claims.get(JwtClaims.OPEN_ID)) == null) {
             response.setStatus(401);
             return false;
         }
         //存在就刷新token时间有效期
-        strRidesT.opsForValue().set(JwtClaims.KOKENKEY + claims.getId(), tokenValue, jwtProperties.getAdminTtl());
+        strRidesT.opsForValue().set(JwtClaims.KOKENKEY + claims.get(JwtClaims.OPEN_ID), tokenValue, jwtProperties.getAdminTtl());
 
         //Redis校验是否存在
         return true;

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,6 +17,10 @@ public class UserLoginVo {
 
     private String token;
 
+    /**
+     * openid
+     */
     private String openId;
+
 
 }

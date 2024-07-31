@@ -12,7 +12,7 @@ public class JwtClaims {
 
 
     //微信小程序用户唯一id
-    public static final String CLOUD_ID = "cloudID";
+    public static final String OPEN_ID = "openId";
     //店铺标识
     public static final String STORE_ADMIN = "storeadmin:";
 }

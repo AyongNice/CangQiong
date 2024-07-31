@@ -74,4 +74,10 @@ public class JwtUtil {
 
         return String.valueOf(claims.get(JwtClaims.EMP_ID));
     }
+
+    public String getOpenId(String authentication) {
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), authentication);
+
+        return String.valueOf(claims.get(JwtClaims.OPEN_ID));
+    }
 }

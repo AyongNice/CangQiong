@@ -27,7 +27,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInter(jwtProperties, strRidesT)).excludePathPatterns("/admin/employee/login",
-                "/user/user/login","/user/shop/status");
+                "/user/user/login","/user/shop/status","/user/addressBook");
     }
 
 
