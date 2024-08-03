@@ -16,7 +16,6 @@ public interface AddressMapper {
 //}
 
 
-
     public Integer addAddress(Address address);
 
     /**
@@ -55,8 +54,7 @@ public interface AddressMapper {
     public List<Address> getAddressList(String openId);
 
 
-
-//    @Update("UPDATE address_book SET " +
+    //    @Update("UPDATE address_book SET " +
 //            "city_code = #{cityCode}," +
 //            "city_name = #{cityName}," +
 //            "consignee = #{consignee}," +
@@ -73,8 +71,25 @@ public interface AddressMapper {
     public Integer setAddressBook(Address address);
 
 
-    @Update("update address_book set is_default=0 where  id=#{id}")
-    String setDefaultAddress(String id, String openId);
+    /**
+     * 设置默认地址
+     *
+     * @param id
+     * @param openId
+     * @return
+     */
+    @Update("update address_book set is_default=1 where  id=#{id} and user_id=#{openId}")
+    Integer setDefaultAddress(String id, String openId);
+
+
+    /**
+     * 除这条地址以外都设置非默认
+     *
+     * @param id
+     * @return
+     */
+    @Update("update address_book set is_default=0 where  id!=#{id} and user_id=#{openId}")
+    Integer setFeiDefaultAddress(String id, String openId);
 
 
     @Select("select id, user_id as userId," +

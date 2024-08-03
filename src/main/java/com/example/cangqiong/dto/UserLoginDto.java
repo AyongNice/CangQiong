@@ -11,6 +11,12 @@ import java.time.LocalDateTime;
 @Data
 public class UserLoginDto {
 
+
+    /**
+     * 小程序登陆API获取的 code 用于从wx官网 获取 openid
+     */
+    private String code;
+
     private String username;
 
     private String location;
@@ -35,4 +41,6 @@ public class UserLoginDto {
     private String sex;
 
     private LocalDateTime createTime;
+
+
 }

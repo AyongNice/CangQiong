@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -41,6 +42,8 @@ public class AddressBook {
     @GetMapping("/list")
     public Result<List<Address>> getAddressList(@RequestHeader("authentication") String authentication) {
 
+
+
         return Result.success(addiessSrever.getAddressList(authentication));
     }
 
@@ -59,9 +62,9 @@ public class AddressBook {
 
 
     @PutMapping("/default")
-    public Result<String> setDefaultAddress(@Param("id") String id, @RequestHeader("authentication") String authentication) {
+    public Result<Integer> setDefaultAddress(@RequestBody Map<String, String> map, @RequestHeader("authentication") String authentication) {
 
-        return Result.success(addiessSrever.setDefaultAddress(id, authentication));
+        return Result.success(addiessSrever.setDefaultAddress(map.get("id"), authentication));
     }
 
 
