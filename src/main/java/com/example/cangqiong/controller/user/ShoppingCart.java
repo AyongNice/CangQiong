@@ -6,6 +6,7 @@ import com.example.cangqiong.service.ShoppingCartsService;
 import com.example.cangqiong.utlis.Result;
 import com.example.cangqiong.vo.CartVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,18 @@ public class ShoppingCart {
         return Result.success(shoppingCartsService.add(cartDto, authentication));
     }
 
+
+    @DeleteMapping("/clean")
+    public Result<String> cleanShoppingCart(@RequestBody Map<String, String> map, @RequestHeader("authentication") String authentication) {
+        shoppingCartsService.cleanShoppingCart(map.get("storeId"), authentication);
+        return Result.success();
+    }
+
+    @PostMapping("/sub")
+    public Result<Integer> subShoppingCart(@RequestBody CartDto cartDto, @RequestHeader("authentication") String authentication) {
+        shoppingCartsService.deleteCart(cartDto, authentication);
+        return Result.success();
+    }
 
     /**
      * 获取购物车列表

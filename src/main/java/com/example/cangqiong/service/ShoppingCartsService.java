@@ -7,6 +7,7 @@ import com.example.cangqiong.dto.DishDto;
 import com.example.cangqiong.utlis.CartIdGenerator;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.vo.CartVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -18,6 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ShoppingCartsService {
 
     @Autowired
@@ -95,8 +97,6 @@ public class ShoppingCartsService {
 
         // 存储 storeId 与 cartId 的关系
         setOps.add("storeId:" + cartDto.getStoreId(), key);
-        System.out.println("添加成功");
-
 
         return 1;
     }
@@ -213,6 +213,65 @@ public class ShoppingCartsService {
         return key;
     }
 
+
+    /**
+     * 清楚当前用户 某店铺 购物车
+     *
+     * @param storeId
+     * @param authentication
+     * @return
+     */
+    public void cleanShoppingCart(String storeId, String authentication) {
+        String userId = jwtUtil.getOpenId(authentication);
+        //清楚redis中 key中包含   cart:#{userId}:#{storeId} 的值
+        strRedisT.delete(Objects.requireNonNull(strRedisT.keys("cart:" + storeId + userId + "*")));
+    }
+
+    /**
+     * 购物车删除一条记录
+     */
+    public void deleteCart(CartDto cartDto, String authentication) {
+
+        String userId = jwtUtil.getOpenId(authentication);
+
+        //先找出 keys包含 cart:#{userId}:#{storeId} 的值
+
+        String[] keys = Objects.requireNonNull(strRedisT.keys("cart:" + cartDto.getStoreId() + userId + "*")).toArray(new String[0]);
+
+        log.info("keys:{}", keys);
+
+        String dishId = cartDto.getDishId();
+        String setmealId = cartDto.getSetmealId();
+
+        //找到这属于这些key的值 当值 中有  #{dishId} 或 #{setmealId} 等于 传入的  storeId 就删除 redis 这条key的数据
+        for (String key : keys) {
+            Map<Object, Object> cartItemMap = strRedisT.opsForHash().entries(key);
+            for (Map.Entry<Object, Object> entry : cartItemMap.entrySet()) {
+                //获取当前key的 字符
+                Object value = entry.getValue();
+                //通过key获取value
+                String valueStr = String.valueOf(value);
+                if (value != null && value != "" && valueStr != null) {
+
+                    // 判断是否等于 传入的  dishId 菜品id
+                    if (valueStr.equals(dishId)) {
+                        strRedisT.delete(Objects.requireNonNull(strRedisT.keys(key)));
+                        return;
+                    }
+                    // 判断是否等于 传入的  setmealId 套餐id
+                    if (valueStr.equals(setmealId)) {
+                        strRedisT.delete(Objects.requireNonNull(strRedisT.keys(key)));
+                        return;
+
+                    }
+                }
+
+
+            }
+        }
+
+
+    }
 }
 
 
