@@ -11,6 +11,11 @@ import java.util.List;
 
 @Mapper
 public interface AddressMapper {
+//    @Update("update user set fingerprint_code=#{fingerprintCode} where user_id=#{userId}")
+//    public Integer setFingerprint(String fingerprintCode, String userId);
+//}
+
+
 
     public Integer addAddress(Address address);
 
