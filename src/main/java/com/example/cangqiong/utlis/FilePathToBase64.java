@@ -14,6 +14,11 @@ import java.util.Base64;
 public class FilePathToBase64 {
 
     public String convertFilePathToBase64(String filePath) {
+        //判断字符 是否 是 base64 是的直接返回 是否包含 data:image/png;base64
+        if (filePath.contains("data:image/png;base64")) {
+            return filePath;
+        }
+
         try {
             Path path = Paths.get(filePath);
             // 使用Base64编码器将字节数组转换为Base64字符串

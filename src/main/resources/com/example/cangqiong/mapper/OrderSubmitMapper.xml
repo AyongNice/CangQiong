@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cangqiong.mapper.OrderSubmitMapper">
+
+
+    <insert id="addOrderSubmit" parameterType="com.example.cangqiong.dto.OrderSubmit">
+        insert into orders (id,
+                            number,
+                            address_book_id,
+                            amount,
+                            delivery_status,
+                            estimated_delivery_time,
+                            pack_amount,
+                            pay_method,
+                            remark,
+                            store_id,
+                            tableware_number,
+                            tableware_status,
+                            user_id,
+                            status,
+                            order_time,
+                            pay_status)
+        values (#{id},
+                #{number},
+                #{addressBookId},
+                #{amount},
+                #{deliveryStatus},
+                #{estimatedDeliveryTime},
+                #{packAmount},
+                #{payMethod},
+                #{remark},
+                #{storeId},
+                #{tablewareNumber},
+                #{tablewareStatus},
+                #{userId},
+                #{status},
+                #{orderTime},
+                #{payStatus})
+
+    </insert>
+
+<!--    向订单详情表中多条插入 -->
+    <insert id="addDetail" >
+        insert into order_detail (
+        name,
+        dish_flavor,
+        dish_id,
+        number,
+        amount,
+        order_id,
+        setmeal_id,
+        image,
+        store_id
+        )
+        values
+        <foreach item="item" collection="list" open="(" separator="),(" close=")">
+            #{item.name},
+            #{item.dishFlavor},
+            #{item.dishId},
+            #{item.number},
+            #{item.amount},
+            #{item.orderId},
+            #{item.setmealId},
+            #{item.image},
+            #{item.storeId}
+        </foreach>
+
+    </insert>
+
+    <!--    支付-->
+    <update id="payment" parameterType="com.example.cangqiong.dto.PaymentDto">
+        update orders
+        set pay_status   = #{payStatus},
+            pay_method=#{payMethod},
+            checkout_time=#{checkoutTime},
+            status=#{status}
+        where id = #{orderNumber}
+    </update>
+</mapper>

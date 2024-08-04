@@ -45,6 +45,11 @@ public class CartVo {
     private Integer number = 1;
     private String createTime;
 
+    private String storeId;
+
+    //订单Id
+    private String orderId;
+
     public CartVo(CartVo cartVo) {
     }
 

@@ -1,10 +1,14 @@
-package com.example.cangqiong.service;
+package com.example.cangqiong.service.user;
 
 
 import com.example.cangqiong.dto.CartDto;
 
 import com.example.cangqiong.dto.DishDto;
+import com.example.cangqiong.dto.SetmealDto;
+import com.example.cangqiong.service.DishService;
+import com.example.cangqiong.service.SetmealService;
 import com.example.cangqiong.utlis.CartIdGenerator;
+import com.example.cangqiong.utlis.FilePathToBase64;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.vo.CartVo;
 import lombok.extern.slf4j.Slf4j;
@@ -33,17 +37,37 @@ public class ShoppingCartsService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    public Integer add(CartDto cartDto, String authentication) {
+    @Autowired
+    private SetmealService setmealService;
+
+    @Autowired
+    private FilePathToBase64 filePathToBase64;
+
+
+    public void add(CartDto cartDto, String authentication) {
 
         String dishId = cartDto.getDishId();
 
         String name = null;
         BigDecimal amount1 = null;
+        String image = null;
+
+        //存储菜品类型购物车
         if (dishId != null) {
             DishDto dishDto = dishService.getDishById(dishId, cartDto.getStoreId());
             //查询菜品价格
             amount1 = new BigDecimal(dishDto.getPrice());
             name = dishDto.getName();
+
+            image = filePathToBase64.convertFilePathToBase64(dishDto.getImage());
+        }
+
+        //存储套餐类型 购物车
+        if (cartDto.getSetmealId() != null) {
+            SetmealDto setmealDto = setmealService.getSetmeal(cartDto.getSetmealId(), cartDto.getStoreId());
+            name = setmealDto.getName();
+            amount1 = new BigDecimal(setmealDto.getPrice());
+            image = filePathToBase64.convertFilePathToBase64(setmealDto.getImage());
         }
 
 
@@ -70,18 +94,23 @@ public class ShoppingCartsService {
         String field3 = "dishId";
         String value3 = dishId == null ? " " : dishId;
 
-
         //店铺id
         String field4 = "storeId";
         String value4 = cartDto.getStoreId();
         String field5 = "userId";
         String value5 = cartDto.getUserId();
 
+        //价格
         String field6 = "amount";
         String value6 = amount1 == null ? " " : amount1.toString();
 
+        //名称
         String field7 = "name";
         String value7 = name == null ? " " : name;
+
+        //图片
+        String field8 = "image";
+        String value8 = image == null ? " " : image;
 
         hashOps.put(key, field1, value1);
         hashOps.put(key, field2, value2);
@@ -90,6 +119,7 @@ public class ShoppingCartsService {
         hashOps.put(key, field5, value5);
         hashOps.put(key, field6, value6);
         hashOps.put(key, field7, value7);
+        hashOps.put(key, field8, value8);
 
 
         // 存储 userId 与 cartId 的关系
@@ -98,26 +128,17 @@ public class ShoppingCartsService {
         // 存储 storeId 与 cartId 的关系
         setOps.add("storeId:" + cartDto.getStoreId(), key);
 
-        return 1;
+
     }
 
 
     public List<CartVo> getShoppingCartList(String storeId, String authentication) {
 
         String userId = jwtUtil.getOpenId(authentication);
-        RedisConnectionFactory factory = strRedisT.getConnectionFactory();
 
-        // 1. 获取所有以 "cart:" 开头的 key
-        List<String> cartKeys = new ArrayList<>();
-        if (factory != null) {
-            try (RedisConnection connection = factory.getConnection()) {
-                Cursor<byte[]> cursor = connection.scan(ScanOptions.scanOptions().match("cart:*").count(100).build());
-                while (cursor.hasNext()) {
-                    byte[] keyBytes = cursor.next();
-                    cartKeys.add(strRedisT.getStringSerializer().deserialize(keyBytes));
-                }
-            }
-        }
+//        // 1. 获取所有以 "cart:" 开头的 key
+        String[] cartKeys = Objects.requireNonNull(strRedisT.keys("cart:" + "*")).toArray(new String[0]);
+
 
         // 2. 筛选出包含 userId 和 storeId 的 key
         List<String> filteredKeys = new ArrayList<>();
@@ -155,6 +176,11 @@ public class ShoppingCartsService {
         Object name = cartItemMap.get("name");
         if (setmealId != null) {
             cartItem.setName(String.valueOf(name));
+        }
+
+        Object image = cartItemMap.get("image");
+        if (image != null) {
+            cartItem.setImage(String.valueOf(image));
         }
 
 
@@ -200,9 +226,7 @@ public class ShoppingCartsService {
                 ));
 
         // 创建一个新的列表来存储去重后的 CartVo 对象
-        List<CartVo> processedCartItems = new ArrayList<>(groupedCartItems.values());
-
-        return processedCartItems;
+        return new ArrayList<>(groupedCartItems.values());
     }
 
     // 自定义 key 生成器
@@ -238,7 +262,6 @@ public class ShoppingCartsService {
 
         String[] keys = Objects.requireNonNull(strRedisT.keys("cart:" + cartDto.getStoreId() + userId + "*")).toArray(new String[0]);
 
-        log.info("keys:{}", keys);
 
         String dishId = cartDto.getDishId();
         String setmealId = cartDto.getSetmealId();
@@ -269,6 +292,9 @@ public class ShoppingCartsService {
 
             }
         }
+
+        //抛出运行异常报错
+        throw new RuntimeException("未找到该产品删除失败");
 
 
     }

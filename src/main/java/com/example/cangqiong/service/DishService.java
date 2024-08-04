@@ -78,8 +78,18 @@ public class DishService {
      */
 
     public List<DishDto> list(String categoryId, String storeId) {
+        List<DishDto> list = dishMapper.list(categoryId, storeId);
+        list.forEach(dishDto -> {
+            String base64 = filePathToBase64.convertFilePathToBase64(dishDto.getImage());
 
-        return dishMapper.list(categoryId, storeId);
+            if (base64 != null) {
+                // 图片转base64
+                dishDto.setImage(UserConst.mimeTypePrefix + filePathToBase64.convertFilePathToBase64(dishDto.getImage()));
+
+            }
+        });
+
+        return list;
     }
 
     /**
