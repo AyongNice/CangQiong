@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.cangqiong.mapper.OrderAdminMapper">
+
+    <select id="getOrderPage" resultType="com.example.cangqiong.dto.OrderSubmit"  >
+        SELECT
+        o.id,
+        o.number,
+        o.user_id AS userId,
+        o.address_book_id AS addressBookId,
+        o.pay_method AS payMethod,
+        o.pay_status AS payStatus,
+        o.amount,
+        o.remark,
+        o.status,
+        u.phone,
+        u.name AS userName,
+        o.order_time AS orderTime,
+        o.checkout_time AS checkoutTime,
+        o.cancel_reason AS cancelReason,
+        o.rejection_reason AS rejectionReason,
+        o.cancel_time AS cancelTime,
+        o.estimated_delivery_time AS estimatedDeliveryTime,
+        o.delivery_status AS deliveryStatus,
+        o.delivery_time AS deliveryTime,
+        o.pack_amount AS packAmount,
+        o.tableware_number AS tablewareNumber,
+        o.tableware_status AS tablewareStatus,
+        GROUP_CONCAT(od.dish_id SEPARATOR ',') AS orderDishes,
+        CONCAT(ad.province_name, ' ', ad.city_name, ' ', ad.district_name, ' ', ad.detail) AS address
+        FROM
+        orders o
+        LEFT JOIN
+        `user` u ON u.openid = o.user_id
+        LEFT JOIN
+        order_detail od ON od.order_id = o.id
+        LEFT JOIN
+        address_book ad ON ad.id = o.address_book_id
+        <where>
+            <if test="beginTime != null">
+                o.order_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                o.order_time &lt;= #{endTime}
+            </if>
+            <if test="number != null">
+                o.number LIKE concat('%',#{number},'%')
+            </if>
+            <if test="phone != null">
+                u.phone LIKE concat('%',#{phone},'%')
+            </if>
+            <if test="status != null">
+                o.status = #{status}
+            </if>
+        </where>
+        GROUP BY
+        o.id, u.phone, u.name ,od.order_id
+    </select>
+
+
+</mapper>
