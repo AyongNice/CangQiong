@@ -8,6 +8,7 @@ import com.example.cangqiong.dto.TakeOrdersDto;
 import com.example.cangqiong.service.OrderService;
 import com.example.cangqiong.utlis.Result;
 import com.example.cangqiong.vo.PageVo;
+import com.example.cangqiong.vo.StatisticsVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -80,6 +81,17 @@ public class OrderController {
         takeOrdersDto.setStatus(TakeOrders.COMPLETED.getCode());
         orderService.manipulateOrders(takeOrdersDto,token);
         return Result.success("派送成功");
+    }
+
+
+    /**
+     * 订单统计
+     * @param token
+     * @return
+     */
+    @GetMapping("/statistics")
+    public Result<StatisticsVo> getOrderStatistics(@RequestHeader("Token") String token) {
+        return Result.success(orderService.getOrderStatistics(token));
     }
 
 

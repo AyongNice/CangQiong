@@ -14,7 +14,7 @@
                o.remark,
                o.status,
                u.phone,
-               u.name                                                                             AS userName,
+               u.name                                                                             AS consignee,
                o.order_time                                                                       AS orderTime,
                o.checkout_time                                                                    AS checkoutTime,
                o.cancel_reason                                                                    AS cancelReason,
@@ -95,6 +95,14 @@
                store_id    as storeId
         FROM order_detail
         WHERE order_id = #{orderId}
+    </select>
+    <!--    订单统计-->
+    <select id="getOrderStatistics" resultType="com.example.cangqiong.vo.StatisticsVo">
+        SELECT SUM(IF(status = #{acceptEd}, 1, 0))    AS  confirmed,
+               SUM(IF(status = #{waitAccept}, 1, 0)) AS toBeConfirmed,
+               SUM(IF(status = #{delivering}, 1, 0))   AS deliveryInProgress
+        FROM orders
+
     </select>
 
 

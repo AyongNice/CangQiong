@@ -59,7 +59,7 @@ public class OrderSubmit {
     private String cancelTime;
     private String checkoutTime;
     private String phone;
-    private String userName;
+    private String consignee;
 
     private String dishIds;
     private List<String> orderDishes;

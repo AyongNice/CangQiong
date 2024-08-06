@@ -5,6 +5,7 @@ import com.example.cangqiong.dto.OrderAdminDto;
 import com.example.cangqiong.dto.OrderSubmit;
 import com.example.cangqiong.dto.TakeOrdersDto;
 import com.example.cangqiong.vo.CartVo;
+import com.example.cangqiong.vo.StatisticsVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -37,4 +38,14 @@ public interface OrderAdminMapper {
 
 
     void manipulateOrders(TakeOrdersDto takeOrdersDto);
+
+    /**
+     * 统计订单数据
+     * @param storeId
+     * @param waitPay
+     * @param accepted
+     * @param acceptEd
+     * @return
+     */
+    StatisticsVo getOrderStatistics(String storeId, String delivering, String waitAccept, String acceptEd);
 }

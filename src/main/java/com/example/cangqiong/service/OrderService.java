@@ -10,6 +10,7 @@ import com.example.cangqiong.mapper.OrderAdminMapper;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.vo.CartVo;
 import com.example.cangqiong.vo.PageVo;
+import com.example.cangqiong.vo.StatisticsVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,15 @@ public class OrderService {
         orderAdminMapper.manipulateOrders(takeOrdersDto);
     }
 
-
-
+    /**
+     * 订单哦统计
+     * @param token
+     * @return
+     */
+    public StatisticsVo getOrderStatistics(String token) {
+        return orderAdminMapper.getOrderStatistics(jwtUtil.getID(token),
+                TakeOrders.DELIVERING.getCode(),
+                TakeOrders.WAIT_ACCEPT.getCode(),
+                TakeOrders.ACCEPTED.getCode());
+    }
 }
