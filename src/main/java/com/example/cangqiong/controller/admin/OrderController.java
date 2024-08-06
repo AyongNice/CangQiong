@@ -1,8 +1,10 @@
 package com.example.cangqiong.controller.admin;
 
 
+import com.example.cangqiong.constant.TakeOrders;
 import com.example.cangqiong.dto.OrderAdminDto;
 import com.example.cangqiong.dto.OrderSubmit;
+import com.example.cangqiong.dto.TakeOrdersDto;
 import com.example.cangqiong.service.OrderService;
 import com.example.cangqiong.utlis.Result;
 import com.example.cangqiong.vo.PageVo;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -28,4 +31,56 @@ public class OrderController {
 
         return Result.success(orderService.getOrderPage(orderAdminDto, token));
     }
+
+
+    @GetMapping("/details/{orderId}")
+    public Result<OrderSubmit> getOrderDetails(@PathVariable String orderId, @RequestHeader("Token") String token) {
+        return Result.success(orderService.getOrderDetails(orderId, token));
+    }
+
+    /**
+     * 接单
+     */
+    @PutMapping("/confirm")
+    public Result<String> confirmOrder(@RequestBody TakeOrdersDto takeOrdersDto, @RequestHeader("Token") String token){
+        takeOrdersDto.setStatus(TakeOrders.ACCEPTED.getCode());
+        orderService.manipulateOrders(takeOrdersDto,token);
+        return Result.success("接单成功");
+    }
+    /**
+     * 拒单
+     */
+    @PutMapping("/rejection")
+    public Result<String> rejectionOrder(@RequestBody TakeOrdersDto takeOrdersDto, @RequestHeader("Token") String token) {
+        takeOrdersDto.setStatus(TakeOrders.REJECT.getCode());
+        orderService.manipulateOrders(takeOrdersDto,token);
+        return Result.success("拒单成功");
+    }
+    /**
+     *派送
+     */
+    @PutMapping("/delivery/{id}")
+    public Result<String> deliveryOrder(@PathVariable String id, @RequestHeader("Token") String token) {
+        TakeOrdersDto takeOrdersDto = new TakeOrdersDto();
+        takeOrdersDto.setId(id);
+        takeOrdersDto.setStatus(TakeOrders.DELIVERING.getCode());
+        orderService.manipulateOrders(takeOrdersDto,token);
+        return Result.success("派送成功");
+    }
+    /**
+     * 完成订单
+     * @param id
+     * @param token
+     * @return
+     */
+    @PutMapping("/complete/{id}")
+    public Result<String> completeOrder(@PathVariable String id, @RequestHeader("Token") String token) {
+        TakeOrdersDto takeOrdersDto = new TakeOrdersDto();
+        takeOrdersDto.setId(id);
+        takeOrdersDto.setStatus(TakeOrders.COMPLETED.getCode());
+        orderService.manipulateOrders(takeOrdersDto,token);
+        return Result.success("派送成功");
+    }
+
+
 }

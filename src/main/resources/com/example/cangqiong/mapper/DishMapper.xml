@@ -27,10 +27,9 @@
                 #{status},
                 #{updateTime},
                 #{updateUser},
-                #{createTime},
+                now(),
                 #{createUser},
-                #{createUser}
-                )
+                #{createUser})
     </insert>
 
 
@@ -78,7 +77,7 @@
         t1.price,
         t1.status,
         t1.category_id as categoryId,
-        t1.create_time as createTime,
+        date_format(t1.create_time, '%Y-%m-%d') as createTime,
         t1. create_user as createUser,
         t1. description,
         t1. image,

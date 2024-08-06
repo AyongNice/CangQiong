@@ -26,6 +26,9 @@ public class JwtClaims {
     //appSecret
     public static final String APP_SECRET = "77a71452b265f56982b01e2d091a9fc1";
 
+    //接单状态
+    public static final String ORDER_STATUS_ACCEPT = "03";
+
 
     //完整请求路径
 

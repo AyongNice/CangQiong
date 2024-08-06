@@ -1,6 +1,7 @@
 package com.example.cangqiong.dto;
 
 
+import com.example.cangqiong.vo.CartVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -77,6 +78,9 @@ public class OrderSubmit {
             this.orderDishes = new ArrayList<>();
         }
     }
+
+    private  List<CartVo> orderDetailList;
+
 
 
 }

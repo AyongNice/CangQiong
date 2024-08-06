@@ -44,6 +44,8 @@ public class OrderSubmitService {
      */
     public OrderSubmitVo submit(OrderSubmit orderSubmit, String authentication) {
 
+
+        //雪花id
         String id = IdUtil.getSnowflakeNextIdStr();
 
         LocalDateTime orderTime = LocalDateTime.now();
@@ -57,21 +59,28 @@ public class OrderSubmitService {
         orderSubmit.setPayStatus(0);
         orderSubmitMapper.addOrderSubmit(orderSubmit);
 
-        List<CartVo> list = shoppingCartsService.getShoppingCartList(orderSubmit.getStoreId(), authentication);
 
+        /**
+         * 获取购物车添加的订单菜品详情
+         */
+        List<CartVo> list = shoppingCartsService.getShoppingCartList(orderSubmit.getStoreId(), authentication);
         list.forEach(cartVo -> {
             cartVo.setOrderId(id);
             cartVo.setStoreId(orderSubmit.getStoreId());
         });
-
         orderSubmitMapper.addDetail(list);
 
+        /**
+         * 清空当前用户所在店铺购物车
+         */
+        shoppingCartsService.cleanShoppingCart(orderSubmit.getStoreId(), authentication);
 
         OrderSubmitVo orderSubmitVo = new OrderSubmitVo();
         orderSubmitVo.setId(id);
         orderSubmitVo.setOrderNumber(id);
         orderSubmitVo.setOrderAmount(new BigDecimal(orderSubmit.getAmount()));
         orderSubmitVo.setOrderTime(orderTime);
+
         return orderSubmitVo;
 
     }

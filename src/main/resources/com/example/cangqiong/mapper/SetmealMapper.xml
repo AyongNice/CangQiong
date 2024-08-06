@@ -27,7 +27,7 @@
                 #{status},
                 #{updateTime},
                 #{updateUser},
-                #{createTime},
+                 now(),
                 #{createUser},
                 #{createUser}
                 )

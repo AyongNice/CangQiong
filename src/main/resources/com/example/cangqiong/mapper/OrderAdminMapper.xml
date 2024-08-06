@@ -3,40 +3,53 @@
 
 <mapper namespace="com.example.cangqiong.mapper.OrderAdminMapper">
 
-    <select id="getOrderPage" resultType="com.example.cangqiong.dto.OrderSubmit"  >
-        SELECT
-        o.id,
-        o.number,
-        o.user_id AS userId,
-        o.address_book_id AS addressBookId,
-        o.pay_method AS payMethod,
-        o.pay_status AS payStatus,
-        o.amount,
-        o.remark,
-        o.status,
-        u.phone,
-        u.name AS userName,
-        o.order_time AS orderTime,
-        o.checkout_time AS checkoutTime,
-        o.cancel_reason AS cancelReason,
-        o.rejection_reason AS rejectionReason,
-        o.cancel_time AS cancelTime,
-        o.estimated_delivery_time AS estimatedDeliveryTime,
-        o.delivery_status AS deliveryStatus,
-        o.delivery_time AS deliveryTime,
-        o.pack_amount AS packAmount,
-        o.tableware_number AS tablewareNumber,
-        o.tableware_status AS tablewareStatus,
-        GROUP_CONCAT(od.dish_id SEPARATOR ',') AS orderDishes,
-        CONCAT(ad.province_name, ' ', ad.city_name, ' ', ad.district_name, ' ', ad.detail) AS address
-        FROM
-        orders o
-        LEFT JOIN
-        `user` u ON u.openid = o.user_id
-        LEFT JOIN
-        order_detail od ON od.order_id = o.id
-        LEFT JOIN
-        address_book ad ON ad.id = o.address_book_id
+    <sql id="selectOder">
+        SELECT o.id,
+               o.number,
+               o.user_id                                                                          AS userId,
+               o.address_book_id                                                                  AS addressBookId,
+               o.pay_method                                                                       AS payMethod,
+               o.pay_status                                                                       AS payStatus,
+               o.amount,
+               o.remark,
+               o.status,
+               u.phone,
+               u.name                                                                             AS userName,
+               o.order_time                                                                       AS orderTime,
+               o.checkout_time                                                                    AS checkoutTime,
+               o.cancel_reason                                                                    AS cancelReason,
+               o.rejection_reason                                                                 AS rejectionReason,
+               o.cancel_time                                                                      AS cancelTime,
+               o.estimated_delivery_time                                                          AS estimatedDeliveryTime,
+               o.delivery_status                                                                  AS deliveryStatus,
+               o.delivery_time                                                                    AS deliveryTime,
+               o.pack_amount                                                                      AS packAmount,
+               o.tableware_number                                                                 AS tablewareNumber,
+               o.tableware_status                                                                 AS tablewareStatus,
+               GROUP_CONCAT(od.dish_id SEPARATOR ',')                                             AS orderDishes,
+               CONCAT(ad.province_name, ' ', ad.city_name, ' ', ad.district_name, ' ', ad.detail) AS address
+        FROM orders o
+                 LEFT JOIN
+             `user` u ON u.openid = o.user_id
+                 LEFT JOIN
+             order_detail od ON od.order_id = o.id
+                 LEFT JOIN
+             address_book ad ON ad.id = o.address_book_id
+    </sql>
+
+
+    <!--    操作订单 接单 巨蛋-->
+    <update id="manipulateOrders">
+        UPDATE orders
+        SET rejection_reason = #{rejectionReason},
+            status           = #{status}
+        WHERE id = #{id}
+          and store_id = #{storeId}
+    </update>
+
+    <select id="getOrderPage" resultType="com.example.cangqiong.dto.OrderSubmit">
+
+        <include refid="selectOder"/>
         <where>
             <if test="beginTime != null">
                 o.order_time &gt;= #{beginTime}
@@ -56,6 +69,32 @@
         </where>
         GROUP BY
         o.id, u.phone, u.name ,od.order_id
+    </select>
+
+    <!--    获取订单详情 -->
+    <select id="getOrderDetails" resultType="com.example.cangqiong.dto.OrderSubmit">
+        <include refid="selectOder"/>
+        <where>
+            o.id = #{orderId} and o.store_id = #{storeId}
+        </where>
+        GROUP BY
+        o.id, u.phone, u.name ,od.order_id
+    </select>
+
+    <!--    获取订单菜品详情-->
+    <select id="getOrderCartVoDetails" resultType="com.example.cangqiong.vo.CartVo">
+        SELECT id,
+               name,
+               dish_flavor as dishFlavor,
+               dish_id     as dishId,
+               setmeal_id  as setmealId,
+               image,
+               number,
+               amount,
+               order_id    as orderId,
+               store_id    as storeId
+        FROM order_detail
+        WHERE order_id = #{orderId}
     </select>
 
 

@@ -1,10 +1,14 @@
 package com.example.cangqiong.service;
 
 
+import com.example.cangqiong.constant.JwtClaims;
+import com.example.cangqiong.constant.TakeOrders;
 import com.example.cangqiong.dto.OrderAdminDto;
 import com.example.cangqiong.dto.OrderSubmit;
+import com.example.cangqiong.dto.TakeOrdersDto;
 import com.example.cangqiong.mapper.OrderAdminMapper;
 import com.example.cangqiong.utlis.JwtUtil;
+import com.example.cangqiong.vo.CartVo;
 import com.example.cangqiong.vo.PageVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -12,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -48,4 +49,33 @@ public class OrderService {
 
         return new PageVo<>(pageInfo.getTotal(), pageInfo.getList());
     }
+
+
+    /**
+     * 获取订单详情
+     *
+     * @param orderId
+     * @param token
+     * @return
+     */
+    public OrderSubmit getOrderDetails(String orderId, String token) {
+        List<CartVo> cartVoList = orderAdminMapper.getOrderCartVoDetails(orderId);
+        OrderSubmit orderSubmit = orderAdminMapper.getOrderDetails(orderId, jwtUtil.getID(token));
+        orderSubmit.setOrderDetailList(cartVoList);
+        return orderSubmit;
+    }
+
+    /**
+     * 操作订单 接单 巨蛋
+     *
+     * @param orderId
+     * @param token
+     */
+    public void manipulateOrders(TakeOrdersDto takeOrdersDto, String token) {
+        takeOrdersDto.setStoreId(jwtUtil.getID(token));
+        orderAdminMapper.manipulateOrders(takeOrdersDto);
+    }
+
+
+
 }

@@ -3,6 +3,8 @@ package com.example.cangqiong.mapper;
 
 import com.example.cangqiong.dto.OrderAdminDto;
 import com.example.cangqiong.dto.OrderSubmit;
+import com.example.cangqiong.dto.TakeOrdersDto;
+import com.example.cangqiong.vo.CartVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -17,4 +19,22 @@ public interface OrderAdminMapper {
      * @return
      */
     List<OrderSubmit> getOrderPage(OrderAdminDto orderAdminDto);
+
+
+    /**
+     * 单个订单
+     * @param orderId
+     * @param id
+     * @return
+     */
+    OrderSubmit getOrderDetails(String orderId, String storeId);
+
+
+    /**
+     * 查询订单详情
+     */
+    List<CartVo> getOrderCartVoDetails(String orderId);
+
+
+    void manipulateOrders(TakeOrdersDto takeOrdersDto);
 }

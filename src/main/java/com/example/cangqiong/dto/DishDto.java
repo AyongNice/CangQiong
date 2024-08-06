@@ -17,7 +17,7 @@ public class DishDto {
     private String image;
     private String description;
     private String status;
-    private LocalDateTime createTime;
+    private String createTime;
     private LocalDateTime updateTime;
     private String createUser;
     private String updateUser;

@@ -46,7 +46,7 @@ public class DishService {
         });
         dishMapper.addFlavors(dishDto.getFlavors());
 
-        dishDto.setCreateTime(LocalDateTime.now());
+//        dishDto.setCreateTime(LocalDateTime.now());
         dishDto.setUpdateTime(LocalDateTime.now());
         return dishMapper.addDish(dishDto);
     }
