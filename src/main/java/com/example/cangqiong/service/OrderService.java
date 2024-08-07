@@ -82,10 +82,15 @@ public class OrderService {
      * @param token
      * @return
      */
+
+    //获取TakeOrders 整个对象的code
+
     public StatisticsVo getOrderStatistics(String token) {
         return orderAdminMapper.getOrderStatistics(jwtUtil.getID(token),
                 TakeOrders.DELIVERING.getCode(),
                 TakeOrders.WAIT_ACCEPT.getCode(),
-                TakeOrders.ACCEPTED.getCode());
+                TakeOrders.ACCEPTED.getCode(),
+                TakeOrders.CANCELED.getCode(),
+                TakeOrders.COMPLETED.getCode());
     }
 }

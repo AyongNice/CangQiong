@@ -98,9 +98,13 @@
     </select>
     <!--    订单统计-->
     <select id="getOrderStatistics" resultType="com.example.cangqiong.vo.StatisticsVo">
-        SELECT SUM(IF(status = #{acceptEd}, 1, 0))    AS  confirmed,
-               SUM(IF(status = #{waitAccept}, 1, 0)) AS toBeConfirmed,
-               SUM(IF(status = #{delivering}, 1, 0))   AS deliveryInProgress
+        SELECT SUM(IF(status = #{acceptEd}, 1, 0))    as  confirmed,
+               SUM(IF(status = #{waitAccept}, 1, 0)) as waitingOrders,
+               SUM(IF(status = #{delivering}, 1, 0))   as deliveredOrders,
+
+               SUM(IF(status = #{cancelled}, 1, 0))    as cancelledOrders,
+               SUM(IF(status = #{completed}, 1, 0))    as completedOrders,
+               SUM(IF(status is not null , 1,0 )) as allOrders
         FROM orders
 
     </select>

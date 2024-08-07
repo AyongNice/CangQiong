@@ -51,5 +51,11 @@ public interface OrderAdminMapper {
      * @param acceptEd
      * @return
      */
-    StatisticsVo getOrderStatistics(String storeId, String delivering, String waitAccept, String acceptEd);
+    StatisticsVo getOrderStatistics(String storeId,
+                                    String delivering,
+                                    String waitAccept,
+                                    String acceptEd,
+                                    String cancelled,
+                                    String completed
+    );
 }
