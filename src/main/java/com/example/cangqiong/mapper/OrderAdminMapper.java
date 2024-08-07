@@ -40,6 +40,10 @@ public interface OrderAdminMapper {
     void manipulateOrders(TakeOrdersDto takeOrdersDto);
 
     /**
+     *
+     *
+     *
+     *
      * 统计订单数据
      * @param storeId
      * @param waitPay
