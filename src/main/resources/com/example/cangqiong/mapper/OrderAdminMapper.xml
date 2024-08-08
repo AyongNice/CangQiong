@@ -29,12 +29,12 @@
                GROUP_CONCAT(od.dish_id SEPARATOR ',')                                             AS orderDishes,
                CONCAT(ad.province_name, ' ', ad.city_name, ' ', ad.district_name, ' ', ad.detail) AS address
         FROM orders o
-                 LEFT JOIN
-             `user` u ON u.openid = o.user_id
-                 LEFT JOIN
-             order_detail od ON od.order_id = o.id
-                 LEFT JOIN
-             address_book ad ON ad.id = o.address_book_id
+                 LEFT JOIN `user` u
+        ON u.openid = o.user_id
+            LEFT JOIN
+            order_detail od ON od.order_id = o.id
+            LEFT JOIN
+            address_book ad ON ad.id = o.address_book_id
     </sql>
 
 
@@ -98,16 +98,41 @@
     </select>
     <!--    订单统计-->
     <select id="getOrderStatistics" resultType="com.example.cangqiong.vo.StatisticsVo">
-        SELECT SUM(IF(status = #{acceptEd}, 1, 0))    as  confirmed,
+        SELECT SUM(IF(status = #{acceptEd}, 1, 0))   as confirmed,
                SUM(IF(status = #{waitAccept}, 1, 0)) as waitingOrders,
-               SUM(IF(status = #{delivering}, 1, 0))   as deliveredOrders,
+               SUM(IF(status = #{delivering}, 1, 0)) as deliveredOrders,
 
-               SUM(IF(status = #{cancelled}, 1, 0))    as cancelledOrders,
-               SUM(IF(status = #{completed}, 1, 0))    as completedOrders,
-               SUM(IF(status is not null , 1,0 )) as allOrders
+               SUM(IF(status = #{cancelled}, 1, 0))  as cancelledOrders,
+               SUM(IF(status = #{completed}, 1, 0))  as completedOrders,
+               SUM(IF(status is not null, 1, 0))     as allOrders
         FROM orders
 
     </select>
 
+    <!--    统计当前店铺的 今天运营数据-->
+    <select id="getBusinessData" resultType="com.example.cangqiong.vo.BusinessDataVo">
+        select sum(amount) as turnover,
+               avg(amount) as unitPrice,
+               count(id)   as validOrderCount
+        from orders
+        where store_id = #{id}
+          and status not in (1, 6, 7)
+   </select>
+
+
+    <select id="baifenbi">
+        select
+        count(id) as finish
+        from orders
+        where store_id = #{store_id}
+        and status =5
+
+    </select>
+
+    <select id="zongshu">
+        select count(id) as total
+        from orders
+        where store_id = #{storeId}
+    </select>
 
 </mapper>

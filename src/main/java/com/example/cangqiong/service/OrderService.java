@@ -8,6 +8,7 @@ import com.example.cangqiong.dto.OrderSubmit;
 import com.example.cangqiong.dto.TakeOrdersDto;
 import com.example.cangqiong.mapper.OrderAdminMapper;
 import com.example.cangqiong.utlis.JwtUtil;
+import com.example.cangqiong.vo.BusinessDataVo;
 import com.example.cangqiong.vo.CartVo;
 import com.example.cangqiong.vo.PageVo;
 import com.example.cangqiong.vo.StatisticsVo;
@@ -84,7 +85,6 @@ public class OrderService {
      */
 
     //获取TakeOrders 整个对象的code
-
     public StatisticsVo getOrderStatistics(String token) {
         return orderAdminMapper.getOrderStatistics(jwtUtil.getID(token),
                 TakeOrders.DELIVERING.getCode(),
@@ -92,5 +92,21 @@ public class OrderService {
                 TakeOrders.ACCEPTED.getCode(),
                 TakeOrders.CANCELED.getCode(),
                 TakeOrders.COMPLETED.getCode());
+    }
+
+    /**
+     * 查询今日运营数据
+     * businessData
+     */
+    public BusinessDataVo getBusinessData(String token) {
+        BusinessDataVo businessDataVo = orderAdminMapper.getBusinessData(jwtUtil.getID(token));
+        Map<String, Long> baifenbi = orderAdminMapper.baifenbi(jwtUtil.getID(token));
+        Map<String, Long> zongshu = orderAdminMapper.zongshu(jwtUtil.getID(token));
+        Double orderCompletionRate = 0.0;
+        if (baifenbi != null && zongshu != null) {
+            orderCompletionRate = Double.valueOf(baifenbi.get("finish")) / Double.valueOf(zongshu.get("total"));
+            businessDataVo.setOrderCompletionRate(Double.valueOf(orderCompletionRate));
+        }
+        return businessDataVo;
     }
 }

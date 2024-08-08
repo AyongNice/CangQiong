@@ -4,6 +4,7 @@ package com.example.cangqiong.controller.admin;
 import com.example.cangqiong.service.OrderService;
 import com.example.cangqiong.service.WorkspaceService;
 import com.example.cangqiong.utlis.Result;
+import com.example.cangqiong.vo.BusinessDataVo;
 import com.example.cangqiong.vo.SetmealsSumVo;
 import com.example.cangqiong.vo.StatisticsVo;
 import lombok.extern.slf4j.Slf4j;
@@ -59,5 +60,14 @@ public class WorkspaceController {
     }
 
 
+    /**
+     * 查询今日运营数据
+     * businessData
+     */
+
+    @GetMapping("/businessData")
+    public Result<BusinessDataVo> getBusinessData(@RequestHeader("Token") String token) {
+        return Result.success(orderService.getBusinessData(token));
+    }
 
 }

@@ -4,11 +4,13 @@ package com.example.cangqiong.mapper;
 import com.example.cangqiong.dto.OrderAdminDto;
 import com.example.cangqiong.dto.OrderSubmit;
 import com.example.cangqiong.dto.TakeOrdersDto;
+import com.example.cangqiong.vo.BusinessDataVo;
 import com.example.cangqiong.vo.CartVo;
 import com.example.cangqiong.vo.StatisticsVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderAdminMapper {
@@ -58,4 +60,16 @@ public interface OrderAdminMapper {
                                     String cancelled,
                                     String completed
     );
+
+
+    /**
+     * 商家数据 今日运营数据
+     * @param id
+     * @return
+     */
+    BusinessDataVo getBusinessData(String id);
+
+    Map<String, Long> baifenbi(String storeId);
+
+    Map<String, Long> zongshu(String storeId);
 }
