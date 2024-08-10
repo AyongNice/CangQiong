@@ -72,4 +72,6 @@ public interface OrderAdminMapper {
     Map<String, Long> baifenbi(String storeId);
 
     Map<String, Long> zongshu(String storeId);
+
+    BusinessDataVo newsAddUser(String storeId);
 }

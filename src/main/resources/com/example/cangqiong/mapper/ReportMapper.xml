@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cangqiong.mapper.ReportMapper">
+
+<!--营业额统计-->
+<!--    ├─ dateList	string	必须		日期列表，日期之间以逗号分隔-->
+<!--    ├─ turnoverList	string	必须		营业额列表，营业额之间以逗号分隔-->
+    <select id="getTurnoverStatistics" resultType="com.example.cangqiong.vo.TurnoverStatisticsVo">
+
+        SELECT GROUP_CONCAT(day SEPARATOR ',') AS dateList,
+        GROUP_CONCAT(dailyTurnover SEPARATOR ',') AS turnoverList
+        FROM (
+        SELECT
+        DATE (order_time) AS day,
+        SUM(amount) AS dailyTurnover
+        FROM orders
+        <where>
+            store_id = #{storeId} AND
+             status = #{status} AND
+            <if test="begin != null">
+                  order_time &gt;= #{begin}
+            </if>
+            <if test="end != null">
+                AND  order_time &lt;= #{end}
+            </if>
+
+        </where>
+        GROUP BY DATE (order_time)
+        ) AS daily_turnover
+    </select>
+
+
+<!--    ├─ dateList	string	必须		日期列表，以逗号分隔-->
+<!--    ├─ newUserList	string	必须		新增用户数列表，以逗号分隔-->
+<!--    ├─ totalUserList	string	必须		总用户量列表，以逗号分隔-->
+
+<!--    <select id="getUserStatistics" resultType="com.example.cangqiong.vo.UserStatisticsVo">-->
+
+<!--        SELECT GROUP_CONCAT(day SEPARATOR ',') AS dateList,-->
+<!--        GROUP_CONCAT(newUser SEPARATOR ',') AS newUserList,-->
+<!--        GROUP_CONCAT(totalUser SEPARATOR ',') AS totalUserList-->
+<!--        FROM (-->
+
+<!--        SELECT-->
+<!--        DATE (order_time) AS day,-->
+<!--        COUNT(DISTINCT user_id) AS newUser,-->
+<!--        SUM(COUNT(DISTINCT user_id)) OVER (ORDER BY DATE (order_time))AS totalUser-->
+<!--        )-->
+
+<!--    </select>-->
+    <select id="getOrderStatistics" resultType="com.example.cangqiong.vo.TurnoverStatisticsVo">
+        <!-- SQL query here -->
+        WITH DailyOrderCounts AS (
+        SELECT
+        DATE(order_time) AS day,
+        COUNT(*) AS total_orders,
+        COUNT(CASE WHEN status IN (3, 4, 5) THEN 1 END) AS valid_orders,
+        COUNT(CASE WHEN status = 5 THEN 1 END) AS completed_orders
+        FROM orders
+        WHERE order_time &gt; #{begin} AND order_time
+        &lt;
+        #{end}
+        GROUP BY DATE(order_time)
+        ),
+
+        CumulativeCounts AS (
+        SELECT
+        day,
+        SUM(total_orders) OVER (ORDER BY day) AS cumulative_total_orders,
+        SUM(valid_orders) OVER (ORDER BY day) AS cumulative_valid_orders,
+        SUM(completed_orders) OVER (ORDER BY day) AS cumulative_completed_orders
+        FROM DailyOrderCounts
+        ),
+
+        FinalMetrics AS (
+        SELECT
+        GROUP_CONCAT(day ORDER BY day) AS dateList,
+        IF(SUM(total_orders) = 0, 0, SUM(completed_orders) / SUM(total_orders)) AS orderCompletionRate,
+        GROUP_CONCAT(total_orders ORDER BY day) AS orderCountList,
+        SUM(total_orders) AS totalOrderCount,
+        SUM(valid_orders) AS validOrderCount,
+        GROUP_CONCAT(valid_orders ORDER BY day) AS validOrderCountList
+        FROM DailyOrderCounts
+        )
+
+        SELECT * FROM FinalMetrics;
+    </select>
+    <select id="getTop10" resultType="com.example.cangqiong.vo.TurnoverStatisticsVo">
+        WITH TopItems AS (SELECT dish_id,
+                                 setmeal_id,
+                                 SUM(number) AS total_sales
+                          FROM order_detail
+                          GROUP BY dish_id, setmeal_id
+                          ORDER BY total_sales DESC
+            LIMIT 10
+            )
+           ,
+
+-- Fetch dish names
+            DishNames AS (
+        SELECT
+            id AS dish_id, name AS dish_name
+        FROM dish
+            ),
+
+-- Fetch setmeal names
+            SetmealNames AS (
+        SELECT
+            id AS setmeal_id, name AS setmeal_name
+        FROM setmeal
+            ),
+
+-- Combine results
+            CombinedResults AS (
+        SELECT
+            ti.dish_id, ti.setmeal_id, COALESCE (dn.dish_name, '') AS dish_name, COALESCE (sn.setmeal_name, '') AS setmeal_name, ti.total_sales
+        FROM TopItems ti
+            LEFT JOIN DishNames dn
+        ON ti.dish_id = dn.dish_id
+            LEFT JOIN SetmealNames sn ON ti.setmeal_id = sn.setmeal_id
+            )
+
+-- Final selection and formatting
+        SELECT GROUP_CONCAT(CASE WHEN dish_id IS NOT NULL AND dish_id != '' THEN dish_name ELSE '' END ORDER BY total_sales DESC) AS nameList,
+               GROUP_CONCAT(total_sales ORDER BY total_sales DESC)                                                                AS numberList
+        FROM CombinedResults
+        WHERE dish_name != '' OR setmeal_name != '';
+
+
+    </select>
+
+
+</mapper>

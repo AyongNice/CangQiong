@@ -38,6 +38,7 @@
     </sql>
 
 
+
     <!--    操作订单 接单 巨蛋-->
     <update id="manipulateOrders">
         UPDATE orders
@@ -111,14 +112,22 @@
 
     <!--    统计当前店铺的 今天运营数据-->
     <select id="getBusinessData" resultType="com.example.cangqiong.vo.BusinessDataVo">
-        select sum(amount) as turnover,
-               avg(amount) as unitPrice,
-               count(id)   as validOrderCount
-        from orders
-        where store_id = #{id}
-          and status not in (1, 6, 7)
-   </select>
+            select
+            sum(amount) as turnover,
+            avg(amount) as unitPrice,
+            count(id)   as validOrderCount,
+            (
+            select count(distinct user_id)
+            from orders
+            where date(order_time) = curdate()
+            and store_id = #{storeId}
+            and user_id not in (select distinct user_id from orders where date(order_time) &lt; curdate())
+            ) as newUsers
+            from orders
+            where store_id = #{storeId}
+            and status not in (1, 6, 7)
 
+    </select>
 
     <select id="baifenbi">
         select

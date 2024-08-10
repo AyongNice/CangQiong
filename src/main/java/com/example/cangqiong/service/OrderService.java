@@ -100,6 +100,8 @@ public class OrderService {
      */
     public BusinessDataVo getBusinessData(String token) {
         BusinessDataVo businessDataVo = orderAdminMapper.getBusinessData(jwtUtil.getID(token));
+
+
         Map<String, Long> baifenbi = orderAdminMapper.baifenbi(jwtUtil.getID(token));
         Map<String, Long> zongshu = orderAdminMapper.zongshu(jwtUtil.getID(token));
         Double orderCompletionRate = 0.0;
