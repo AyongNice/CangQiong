@@ -1,29 +1,32 @@
-# Getting Started
+# 阿勇的第一个Java项目 准备工作
 
-### Reference Documentation
+### 关注 微信公众号  阿勇学前端
 
-For further reference, please consider the following sections:
+### 环境 
+1. jdk： java version "1.8.0_411"
+2. maven： Apache Maven 3.6.1
+3. mysql : 8.0
+4. node： v16.20.2
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.3.2/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.3.2/maven-plugin/reference/html/#build-image)
-* [MyBatis Framework](https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/3.3.2/reference/htmlsingle/index.html#web)
+###  后端准备工作
+1. 使用数据库连接工具 或者 idea 连接数据库 执行 cangqiong.sql脚本
+2. 将 application.yml.example 中  数据库端口 、 用户名、密码、redis 端口 密码 修改为自己的配置  
+3. 启动  redis 服务
+4. 刷新pop文件依赖 运行spring-boot
 
-### Guides
+### 前端准备工作
 
-The following guides illustrate how to use some features concretely:
+#### 管理的 pc
+1. 解压nginx-1.20.2.rar 不能放到有中文的名 的文件夹！！！
+2. 修改 conf 目录下 nginx.conf 文件中的  反向代理,处理管理端发送的请求 端口号 为 后端spring-boot 运行端口
+例如 proxy_pass  http://127.0.0.1:8080/admin/;  改为 http://127.0.0.1:(你自己的后端端口)/admin/;
+3. 双击nginx.exe 、 在浏览器窗口 http://localhost/#/login 即可访问管理端
 
-* [MyBatis Quick Start](https://github.com/mybatis/spring-boot-starter/wiki/Quick-Start)
-* [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
+#### 用户端 小程序、
+1. https://mp.weixin.qq.com/ 登录微信公众平台使用测试号小程序 粘贴自己的小程序appid  、AppSecret 复制到常量类里 JwtClaims
+2. 微信官网下载微信小程序开发工具 https://mp.weixin.qq.com/
+3. 解压 mp-weixin.zip
+4. 使用微信小程序开发工具打开 导入项目 mp-weixin 即可
 
-### Maven Parent overrides
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM. While most of the inheritance is
-fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent. To prevent this, the
-project POM contains empty overrides for these elements. If you manually switch to a different parent and actually want
-the inheritance, you need to remove those overrides.
-
+### 按照 用户端 管理端接口文档 开发接口
