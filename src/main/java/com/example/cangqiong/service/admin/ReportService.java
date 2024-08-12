@@ -20,7 +20,7 @@ public class ReportService {
     ReportMapper reportMapper;
 
     public TurnoverStatisticsVo getTurnoverStatistics(String token, String begin, String end) {
-       return reportMapper.getTurnoverStatistics(jwtUtil.getID(token), TakeOrders.COMPLETED.getCode(),begin,end);
+        return reportMapper.getTurnoverStatistics(jwtUtil.getID(token), TakeOrders.COMPLETED.getCode(), begin, end);
 
     }
 
@@ -29,89 +29,98 @@ public class ReportService {
      */
 
     public TurnoverStatisticsVo getOrderStatistics(String token, String begin, String end) {
-        return reportMapper.getOrderStatistics(jwtUtil.getID(token),begin,end);
+        return reportMapper.getOrderStatistics(jwtUtil.getID(token), begin, end);
     }
 
     public TurnoverStatisticsVo getTop10(String token, String begin, String end) {
-        return reportMapper.getTop10(jwtUtil.getID(token),begin,end);
+        return reportMapper.getTop10(jwtUtil.getID(token), begin, end);
     }
 
     public TurnoverStatisticsVo getUserStatistics(String token, String begin, String end) {
-          List<OderUser> list  =  reportMapper.getUserStatistics(jwtUtil.getID(token),begin,end);
+        List<OderUser> list = reportMapper.getUserStatistics(jwtUtil.getID(token), begin, end);
 
-        /**
-         *   统计 中每天订单数据  的新用户 数量 和 当前用户总量
-         */
-        // 统计结果
-        // 示例订单数据
-        List<OderUser> orders = Arrays.asList(
-                new OderUser("u18", "2023-01-01"),
-                new OderUser("u18", "2023-01-01"),
-                new OderUser("u18", "2023-01-01"),
-                new OderUser("u181", "2023-01-01"),
-                new OderUser("u183", "2023-01-01"),
-                new OderUser("u3", "2023-01-02"),
-                new OderUser("u4", "2023-01-02"),
-                new OderUser("u5", "2023-01-02"),
-                new OderUser("u5", "2023-01-02") // 重复用户
-        );
-
-        // 统计结果
-        Map<String, Set<String>> dailyNewUsers = new HashMap<>();
-
-        Map<String, Integer> dailyToatlUsers = new HashMap<>();
-        Map<String, Integer> dailyNewAddUsers = new HashMap<>();
-
-
-        for (int i = 0; i < orders.size(); i++) {
-            OderUser order = orders.get(i);
-            OderUser orderOld = null;
-            if (i > 1) {
-                orderOld = orders.get(i - 1);
-            }
-
-            Set<String> totalUsers = new HashSet<>();
-
-            Set<String> list = dailyNewUsers.get(order.getOrderTime());
-
-            if (list != null) {
-                list.add(order.getUserId());
-                //获取  list 用户 长度
-                dailyNewAddUsers.put(order.getOrderTime(), list.size());
-
-
-                // 获取前一天
-                if(orderOld != null){
-                    Integer toalt = dailyNewAddUsers.get(orderOld.getOrderTime()) + list.size();
-
-                    System.out.println(toalt+"--toalt-" + orderOld.getOrderTime());
-                    dailyToatlUsers.put(order.getOrderTime(), toalt);
-                }else {
-                    // 获取第一天
-                    dailyToatlUsers.put(order.getOrderTime(), totalUsers.size());
-                }
-
-
-            } else {
-                totalUsers.add(order.getUserId());
-                dailyNewUsers.put(order.getOrderTime(), totalUsers);
-            }
-
-        }
-
-
-
+        TurnoverStatisticsVo vo = new TurnoverStatisticsVo();
+        Map<String, Integer> dailyUniqueUsers = countDailyUniqueUsers(list);
 
         // 输出结果
-        System.out.println("每日---数量: " + dailyNewUsers);
-        System.out.println("每日总用户数量: " + dailyToatlUsers);
-        System.out.println("每日新用户数量: " + dailyNewAddUsers);
+        String dateList = convertToCommaSeparatedList(dailyUniqueUsers.keySet());
+        vo.setDateList(dateList);
+        String totalUserList = convertToCommaSeparatedList(accumulateDailyValues(dailyUniqueUsers).values());
+        vo.setTotalUserList(totalUserList);
+        String newUserList = convertToCommaSeparatedList(dailyUniqueUsers.values());
+        vo.setNewUserList(newUserList);
+        return vo;
+    }
 
+    /**
+     *  统计每日 新增用户
+     * @param orders
+     * @return
+     */
+    private Map<String, Integer> countDailyUniqueUsers(List<OderUser> orders) {
+        Map<String, Integer> dailyUniqueUsers = new LinkedHashMap<>();
+        Set<String> countedUsers = new HashSet<>();
+
+        for (OderUser order : orders) {
+            String date = order.getOrderTime();
+            String userId = order.getUserId();
+            // 获取当前日期的用户计数
+            Integer count = dailyUniqueUsers.get(date);
+
+            // 如果是第一次出现该日期，则初始化计数为 1
+            if (count == null) {
+                dailyUniqueUsers.put(date, 1);
+
+            } else {
+
+                System.out.println(countedUsers);
+                // 如果还没有统计过该用户，则计数加一
+                System.out.println(countedUsers.contains(userId) + userId);
+                if (!countedUsers.contains(userId)) {
+                    dailyUniqueUsers.put(date, count + 1);
+                }
+            }
+            // 获取或创建当前日期的已统计用户集
+            countedUsers.add(userId);
+        }
+
+        return dailyUniqueUsers;
+    }
+
+    /**
+     * 每日新增用户转换 当天总数
+     * @param dailyValues
+     * @return
+     */
+    private Map<String, Integer> accumulateDailyValues(Map<String, Integer> dailyValues) {
+        // 创建一个新的 LinkedHashMap 来存储累积值
+        Map<String, Integer> accumulatedValues = new LinkedHashMap<>();
+
+        // 累加值
+        int sum = 0;
+        for (Map.Entry<String, Integer> entry : dailyValues.entrySet()) {
+            sum += entry.getValue();
+            accumulatedValues.put(entry.getKey(), sum);
+        }
+
+        return accumulatedValues;
     }
 
 
-
-
-        return null;
+    /**
+     * 将集合转换为逗号分隔的字符串
+     * @param collection
+     * @return
+     */
+    private String convertToCommaSeparatedList(Collection<?> collection) {
+        StringBuilder sb = new StringBuilder();
+        for (Object item : collection) {
+            sb.append(item).append(",");
+        }
+        // 移除最后一个逗号
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
+        }
+        return sb.toString();
     }
 }

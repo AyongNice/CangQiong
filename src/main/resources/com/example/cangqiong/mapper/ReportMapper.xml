@@ -130,11 +130,11 @@
 
 
     </select>
-    <select id="getUserStatistics" resultType="com.example.cangqiong.vo.OderUser">
+    <select id="getUserStatistics" resultType="com.example.cangqiong.dto.OderUser">
         SELECT
             order_time as orderTime,
             user_id as userId
-        FROM orders
+        FROM orders where store_id = #{storeId}
         ORDER BY order_time DESC
 </select>
 

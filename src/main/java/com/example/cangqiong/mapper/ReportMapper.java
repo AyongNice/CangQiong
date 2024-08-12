@@ -15,5 +15,5 @@ public interface ReportMapper {
 
     TurnoverStatisticsVo getTop10(String id, String begin, String end);
 
-    List<OderUser> getUserStatistics(String id, String begin, String end);
+    List<OderUser> getUserStatistics(String storeId, String begin, String end);
 }
