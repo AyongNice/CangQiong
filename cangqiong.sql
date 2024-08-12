@@ -101,6 +101,11 @@ create table employee
 )
     comment '员工信息' collate = utf8mb3_bin;
 
+insert into employee ( id, name, username, password, phone, sex, id_number, status, create_time, update_time, create_user, update_user, store_id) values
+(8, 'admin1', 'admin1', 'e10adc3949ba59abbe56e057f20f883e', '13800000001', '1', '123456789123456789', 1, '2023-02-01 09:09:09', '2023-02-01 09:09:09', 1, 1, 1);
+
+
+
 create table order_detail
 (
     id          bigint auto_increment comment '主键'
