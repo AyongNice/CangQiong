@@ -2,7 +2,7 @@ package com.example.cangqiong.controller.user;
 
 
 import com.example.cangqiong.dto.CategoryDto;
-import com.example.cangqiong.service.CategoryService;
+import com.example.cangqiong.service.admin.CategoryService;
 import com.example.cangqiong.utlis.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;

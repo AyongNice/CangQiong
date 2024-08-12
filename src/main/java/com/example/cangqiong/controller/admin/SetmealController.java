@@ -2,7 +2,7 @@ package com.example.cangqiong.controller.admin;
 
 import com.example.cangqiong.constant.JwtProperties;
 import com.example.cangqiong.dto.SetmealDto;
-import com.example.cangqiong.service.SetmealService;
+import com.example.cangqiong.service.admin.SetmealService;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
 import com.example.cangqiong.vo.PageVo;

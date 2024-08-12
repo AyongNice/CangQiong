@@ -1,7 +1,7 @@
 package com.example.cangqiong.controller.admin;
 
 
-import com.example.cangqiong.service.ReportService;
+import com.example.cangqiong.service.admin.ReportService;
 import com.example.cangqiong.utlis.Result;
 import com.example.cangqiong.vo.TurnoverStatisticsVo;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +48,17 @@ public class ReportController {
     public Result<TurnoverStatisticsVo> getTop10(@Param("begin") String begin, @Param("end")  String end, @RequestHeader("Token") String token) {
 
         return Result.success(reportService.getTop10(token,begin,end));
+    }
+
+
+    /**
+     * 用户统计接口
+     * userStatistics
+     */
+
+    @GetMapping("/userStatistics")
+    public Result<TurnoverStatisticsVo> getUserStatistics(@Param("begin") String begin, @Param("end")  String end, @RequestHeader("Token") String token){
+        return Result.success(reportService.getUserStatistics(token,begin,end));
     }
 
 }

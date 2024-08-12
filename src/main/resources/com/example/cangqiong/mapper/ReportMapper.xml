@@ -130,6 +130,13 @@
 
 
     </select>
+    <select id="getUserStatistics" resultType="com.example.cangqiong.vo.OderUser">
+        SELECT
+            order_time as orderTime,
+            user_id as userId
+        FROM orders
+        ORDER BY order_time DESC
+</select>
 
 
 </mapper>

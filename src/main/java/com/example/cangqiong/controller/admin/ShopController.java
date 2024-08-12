@@ -1,7 +1,7 @@
 package com.example.cangqiong.controller.admin;
 
 
-import com.example.cangqiong.service.ShopService;
+import com.example.cangqiong.service.admin.ShopService;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
 import lombok.extern.slf4j.Slf4j;

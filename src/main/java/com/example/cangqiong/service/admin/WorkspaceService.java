@@ -1,4 +1,4 @@
-package com.example.cangqiong.service;
+package com.example.cangqiong.service.admin;
 
 
 import com.example.cangqiong.mapper.WorkspaceMapper;

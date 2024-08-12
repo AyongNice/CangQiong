@@ -7,7 +7,7 @@ import com.example.cangqiong.dto.EditPasswordDto;
 import com.example.cangqiong.dto.LongDto;
 import com.example.cangqiong.dto.User;
 
-import com.example.cangqiong.service.LoginService;
+import com.example.cangqiong.service.admin.LoginService;
 
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
@@ -19,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 员工管理
