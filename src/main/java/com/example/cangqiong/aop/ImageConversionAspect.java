@@ -1,17 +1,14 @@
 package com.example.cangqiong.aop;
 
 import com.example.cangqiong.constant.UserConst;
-import com.example.cangqiong.dto.SetmealDto;
-import com.example.cangqiong.utlis.BaseImageEntity;
+import com.example.cangqiong.entity.dto.SetmealDto;
 import com.example.cangqiong.utlis.FilePathToBase64;
-import com.example.cangqiong.vo.PageVo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.List;
 
 

@@ -2,10 +2,10 @@ package com.example.cangqiong.service.admin;
 
 
 import com.example.cangqiong.constant.TakeOrders;
-import com.example.cangqiong.dto.OderUser;
+import com.example.cangqiong.entity.dto.OderUser;
 import com.example.cangqiong.mapper.ReportMapper;
 import com.example.cangqiong.utlis.JwtUtil;
-import com.example.cangqiong.vo.TurnoverStatisticsVo;
+import com.example.cangqiong.entity.vo.TurnoverStatisticsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -2,7 +2,7 @@ package com.example.cangqiong.service.admin;
 
 
 import com.example.cangqiong.mapper.WorkspaceMapper;
-import com.example.cangqiong.vo.SetmealsSumVo;
+import com.example.cangqiong.entity.vo.SetmealsSumVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

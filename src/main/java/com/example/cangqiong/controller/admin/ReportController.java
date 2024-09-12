@@ -3,7 +3,7 @@ package com.example.cangqiong.controller.admin;
 
 import com.example.cangqiong.service.admin.ReportService;
 import com.example.cangqiong.utlis.Result;
-import com.example.cangqiong.vo.TurnoverStatisticsVo;
+import com.example.cangqiong.entity.vo.TurnoverStatisticsVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
-package com.example.cangqiong.dto;
+package com.example.cangqiong.entity.dto;
 
 
-import com.example.cangqiong.constant.TakeOrders;
 import lombok.Data;
 
 /**

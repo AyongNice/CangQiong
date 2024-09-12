@@ -1,13 +1,11 @@
-package com.example.cangqiong.dto;
+package com.example.cangqiong.entity.dto;
 
 import com.example.cangqiong.utlis.BaseImageEntity;
-import com.example.cangqiong.utlis.FilePathToBase64;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 

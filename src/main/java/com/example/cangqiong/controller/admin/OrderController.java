@@ -2,13 +2,13 @@ package com.example.cangqiong.controller.admin;
 
 
 import com.example.cangqiong.constant.TakeOrders;
-import com.example.cangqiong.dto.OrderAdminDto;
-import com.example.cangqiong.dto.OrderSubmit;
-import com.example.cangqiong.dto.TakeOrdersDto;
+import com.example.cangqiong.entity.dto.OrderAdminDto;
+import com.example.cangqiong.entity.dto.OrderSubmit;
+import com.example.cangqiong.entity.dto.TakeOrdersDto;
 import com.example.cangqiong.service.admin.OrderService;
 import com.example.cangqiong.utlis.Result;
-import com.example.cangqiong.vo.PageVo;
-import com.example.cangqiong.vo.StatisticsVo;
+import com.example.cangqiong.entity.vo.PageVo;
+import com.example.cangqiong.entity.vo.StatisticsVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

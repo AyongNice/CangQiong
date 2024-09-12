@@ -1,12 +1,12 @@
 package com.example.cangqiong.mapper;
 
 
-import com.example.cangqiong.dto.OrderAdminDto;
-import com.example.cangqiong.dto.OrderSubmit;
-import com.example.cangqiong.dto.TakeOrdersDto;
-import com.example.cangqiong.vo.BusinessDataVo;
-import com.example.cangqiong.vo.CartVo;
-import com.example.cangqiong.vo.StatisticsVo;
+import com.example.cangqiong.entity.dto.OrderAdminDto;
+import com.example.cangqiong.entity.dto.OrderSubmit;
+import com.example.cangqiong.entity.dto.TakeOrdersDto;
+import com.example.cangqiong.entity.vo.BusinessDataVo;
+import com.example.cangqiong.entity.vo.CartVo;
+import com.example.cangqiong.entity.vo.StatisticsVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

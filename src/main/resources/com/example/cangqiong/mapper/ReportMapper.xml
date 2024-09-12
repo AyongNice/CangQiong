@@ -7,7 +7,7 @@
 <!--营业额统计-->
 <!--    ├─ dateList	string	必须		日期列表，日期之间以逗号分隔-->
 <!--    ├─ turnoverList	string	必须		营业额列表，营业额之间以逗号分隔-->
-    <select id="getTurnoverStatistics" resultType="com.example.cangqiong.vo.TurnoverStatisticsVo">
+    <select id="getTurnoverStatistics" resultType="com.example.cangqiong.entity.vo.TurnoverStatisticsVo">
 
         SELECT GROUP_CONCAT(day SEPARATOR ',') AS dateList,
         GROUP_CONCAT(dailyTurnover SEPARATOR ',') AS turnoverList
@@ -50,7 +50,7 @@
 <!--        )-->
 
 <!--    </select>-->
-    <select id="getOrderStatistics" resultType="com.example.cangqiong.vo.TurnoverStatisticsVo">
+    <select id="getOrderStatistics" resultType="com.example.cangqiong.entity.vo.TurnoverStatisticsVo">
         <!-- SQL query here -->
         WITH DailyOrderCounts AS (
         SELECT
@@ -87,7 +87,7 @@
 
         SELECT * FROM FinalMetrics;
     </select>
-    <select id="getTop10" resultType="com.example.cangqiong.vo.TurnoverStatisticsVo">
+    <select id="getTop10" resultType="com.example.cangqiong.entity.vo.TurnoverStatisticsVo">
         WITH TopItems AS (SELECT dish_id,
                                  setmeal_id,
                                  SUM(number) AS total_sales
@@ -130,7 +130,7 @@
 
 
     </select>
-    <select id="getUserStatistics" resultType="com.example.cangqiong.dto.OderUser">
+    <select id="getUserStatistics" resultType="com.example.cangqiong.entity.dto.OderUser">
         SELECT
             order_time as orderTime,
             user_id as userId

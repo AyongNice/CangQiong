@@ -4,16 +4,16 @@ package com.example.cangqiong.service.admin;
 import com.example.cangqiong.constant.JwtClaims;
 import com.example.cangqiong.constant.JwtProperties;
 import com.example.cangqiong.constant.UserConst;
-import com.example.cangqiong.dto.EditPasswordDto;
-import com.example.cangqiong.dto.LongDto;
-import com.example.cangqiong.dto.User;
+import com.example.cangqiong.entity.dto.EditPasswordDto;
+import com.example.cangqiong.entity.dto.LongDto;
+import com.example.cangqiong.entity.dto.User;
 import com.example.cangqiong.mapper.Admin;
 
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.PasswordUtil;
-import com.example.cangqiong.vo.EmployeeLoginVO;
+import com.example.cangqiong.entity.vo.EmployeeLoginVO;
 
-import com.example.cangqiong.vo.PageVo;
+import com.example.cangqiong.entity.vo.PageVo;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

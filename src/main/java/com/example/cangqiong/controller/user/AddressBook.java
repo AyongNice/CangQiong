@@ -1,12 +1,11 @@
 package com.example.cangqiong.controller.user;
 
 
-import com.example.cangqiong.dto.Address;
+import com.example.cangqiong.entity.dto.Address;
 import com.example.cangqiong.service.user.AddiessSrever;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

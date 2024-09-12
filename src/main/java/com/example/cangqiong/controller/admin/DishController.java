@@ -2,11 +2,11 @@ package com.example.cangqiong.controller.admin;
 
 
 import com.example.cangqiong.constant.JwtProperties;
-import com.example.cangqiong.dto.DishDto;
+import com.example.cangqiong.entity.dto.DishDto;
 import com.example.cangqiong.service.admin.DishService;
 import com.example.cangqiong.utlis.JwtUtil;
 import com.example.cangqiong.utlis.Result;
-import com.example.cangqiong.vo.PageVo;
+import com.example.cangqiong.entity.vo.PageVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;

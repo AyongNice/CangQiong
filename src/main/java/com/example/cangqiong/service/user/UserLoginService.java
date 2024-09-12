@@ -3,13 +3,13 @@ package com.example.cangqiong.service.user;
 
 import com.example.cangqiong.constant.JwtClaims;
 import com.example.cangqiong.constant.JwtProperties;
-import com.example.cangqiong.dto.UserLoginDto;
+import com.example.cangqiong.entity.dto.UserLoginDto;
 import com.example.cangqiong.mapper.StoreMapper;
 import com.example.cangqiong.mapper.UserLoginMapper;
 import com.example.cangqiong.service.admin.ShopService;
 import com.example.cangqiong.utlis.JwtUtil;
-import com.example.cangqiong.vo.StoreInfo;
-import com.example.cangqiong.vo.UserLoginVo;
+import com.example.cangqiong.entity.vo.StoreInfo;
+import com.example.cangqiong.entity.vo.UserLoginVo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

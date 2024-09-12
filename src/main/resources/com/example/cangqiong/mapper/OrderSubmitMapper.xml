@@ -5,7 +5,7 @@
 <mapper namespace="com.example.cangqiong.mapper.OrderSubmitMapper">
 
 
-    <insert id="addOrderSubmit" parameterType="com.example.cangqiong.dto.OrderSubmit">
+    <insert id="addOrderSubmit" parameterType="com.example.cangqiong.entity.dto.OrderSubmit">
         insert into orders (id,
                             number,
                             address_book_id,
@@ -70,7 +70,7 @@
     </insert>
 
     <!--    支付-->
-    <update id="payment" parameterType="com.example.cangqiong.dto.PaymentDto">
+    <update id="payment" parameterType="com.example.cangqiong.entity.dto.PaymentDto">
         update orders
         set pay_status   = #{payStatus},
             pay_method=#{payMethod},

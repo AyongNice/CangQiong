@@ -1,11 +1,7 @@
-package com.example.cangqiong.vo;
+package com.example.cangqiong.entity.vo;
 
 
 import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * 营业额统计

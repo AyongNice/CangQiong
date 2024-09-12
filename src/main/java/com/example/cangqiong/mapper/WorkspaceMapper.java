@@ -1,7 +1,7 @@
 package com.example.cangqiong.mapper;
 
 
-import com.example.cangqiong.vo.SetmealsSumVo;
+import com.example.cangqiong.entity.vo.SetmealsSumVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

@@ -1,16 +1,16 @@
 package com.example.cangqiong.service.user;
 
 
-import com.example.cangqiong.dto.CartDto;
+import com.example.cangqiong.entity.dto.CartDto;
 
-import com.example.cangqiong.dto.DishDto;
-import com.example.cangqiong.dto.SetmealDto;
+import com.example.cangqiong.entity.dto.DishDto;
+import com.example.cangqiong.entity.dto.SetmealDto;
 import com.example.cangqiong.service.admin.DishService;
 import com.example.cangqiong.service.admin.SetmealService;
 import com.example.cangqiong.utlis.CartIdGenerator;
 import com.example.cangqiong.utlis.FilePathToBase64;
 import com.example.cangqiong.utlis.JwtUtil;
-import com.example.cangqiong.vo.CartVo;
+import com.example.cangqiong.entity.vo.CartVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;

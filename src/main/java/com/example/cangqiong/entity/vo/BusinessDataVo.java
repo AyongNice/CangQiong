@@ -1,4 +1,4 @@
-package com.example.cangqiong.vo;
+package com.example.cangqiong.entity.vo;
 
 import lombok.Data;
 

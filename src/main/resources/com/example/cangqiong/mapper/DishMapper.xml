@@ -69,7 +69,7 @@
 
     </delete>
 
-    <select id="page" resultType="com.example.cangqiong.dto.DishDto">
+    <select id="page" resultType="com.example.cangqiong.entity.dto.DishDto">
         select
         t1.id,
         t1.name,
@@ -101,7 +101,7 @@
     </select>
 
 
-    <select id="getDishById" resultType="com.example.cangqiong.dto.DishDto">
+    <select id="getDishById" resultType="com.example.cangqiong.entity.dto.DishDto">
         select t1.id,
                t1.name,
                t1.description,

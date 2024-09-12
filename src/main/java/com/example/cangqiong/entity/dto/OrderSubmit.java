@@ -1,7 +1,7 @@
-package com.example.cangqiong.dto;
+package com.example.cangqiong.entity.dto;
 
 
-import com.example.cangqiong.vo.CartVo;
+import com.example.cangqiong.entity.vo.CartVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;

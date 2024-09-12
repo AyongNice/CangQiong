@@ -1,4 +1,4 @@
-package com.example.cangqiong.dto;
+package com.example.cangqiong.entity.dto;
 
 import lombok.Data;
 

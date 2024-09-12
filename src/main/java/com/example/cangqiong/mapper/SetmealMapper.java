@@ -1,9 +1,7 @@
 package com.example.cangqiong.mapper;
 
-import com.example.cangqiong.dto.DishDto;
-import com.example.cangqiong.dto.SetmealDishesDto;
-import com.example.cangqiong.dto.SetmealDto;
-import com.example.cangqiong.utlis.Result;
+import com.example.cangqiong.entity.dto.SetmealDishesDto;
+import com.example.cangqiong.entity.dto.SetmealDto;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

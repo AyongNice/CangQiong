@@ -1,9 +1,8 @@
 package com.example.cangqiong.mapper;
 
 
-import com.example.cangqiong.dto.DishDto;
-import com.example.cangqiong.dto.Flavor;
-import lombok.Data;
+import com.example.cangqiong.entity.dto.DishDto;
+import com.example.cangqiong.entity.dto.Flavor;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

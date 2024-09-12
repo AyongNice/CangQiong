@@ -1,19 +1,17 @@
 package com.example.cangqiong.service.admin;
 
 
-import com.example.cangqiong.constant.JwtClaims;
 import com.example.cangqiong.constant.UserConst;
-import com.example.cangqiong.dto.DishDto;
-import com.example.cangqiong.dto.Flavor;
+import com.example.cangqiong.entity.dto.DishDto;
+import com.example.cangqiong.entity.dto.Flavor;
 import com.example.cangqiong.mapper.DishMapper;
 import com.example.cangqiong.utlis.FilePathToBase64;
 import com.example.cangqiong.utlis.JwtUtil;
-import com.example.cangqiong.vo.PageVo;
+import com.example.cangqiong.entity.vo.PageVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;

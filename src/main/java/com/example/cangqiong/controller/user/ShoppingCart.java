@@ -1,10 +1,10 @@
 package com.example.cangqiong.controller.user;
 
 
-import com.example.cangqiong.dto.CartDto;
+import com.example.cangqiong.entity.dto.CartDto;
 import com.example.cangqiong.service.user.ShoppingCartsService;
 import com.example.cangqiong.utlis.Result;
-import com.example.cangqiong.vo.CartVo;
+import com.example.cangqiong.entity.vo.CartVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;

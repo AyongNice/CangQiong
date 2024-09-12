@@ -1,7 +1,7 @@
 package com.example.cangqiong.mapper;
 
 
-import com.example.cangqiong.vo.StoreInfo;
+import com.example.cangqiong.entity.vo.StoreInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

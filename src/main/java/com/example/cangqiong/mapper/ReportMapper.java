@@ -1,8 +1,8 @@
 package com.example.cangqiong.mapper;
 
 
-import com.example.cangqiong.dto.OderUser;
-import com.example.cangqiong.vo.TurnoverStatisticsVo;
+import com.example.cangqiong.entity.dto.OderUser;
+import com.example.cangqiong.entity.vo.TurnoverStatisticsVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

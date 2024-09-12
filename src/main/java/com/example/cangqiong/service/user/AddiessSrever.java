@@ -1,7 +1,7 @@
 package com.example.cangqiong.service.user;
 
 
-import com.example.cangqiong.dto.Address;
+import com.example.cangqiong.entity.dto.Address;
 import com.example.cangqiong.mapper.AddressMapper;
 import com.example.cangqiong.utlis.JwtUtil;
 import lombok.extern.slf4j.Slf4j;

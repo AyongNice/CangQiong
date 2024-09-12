@@ -1,12 +1,11 @@
 package com.example.cangqiong.mapper;
 
-import com.example.cangqiong.dto.OrderSubmit;
-import com.example.cangqiong.dto.PaymentDto;
-import com.example.cangqiong.vo.CartVo;
+import com.example.cangqiong.entity.dto.OrderSubmit;
+import com.example.cangqiong.entity.dto.PaymentDto;
+import com.example.cangqiong.entity.vo.CartVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Map;
 
 
 @Mapper

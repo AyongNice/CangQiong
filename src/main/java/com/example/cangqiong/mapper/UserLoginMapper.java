@@ -1,7 +1,7 @@
 package com.example.cangqiong.mapper;
 
 
-import com.example.cangqiong.dto.UserLoginDto;
+import com.example.cangqiong.entity.dto.UserLoginDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

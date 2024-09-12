@@ -2,12 +2,12 @@ package com.example.cangqiong.service.user;
 
 
 import cn.hutool.core.util.IdUtil;
-import com.example.cangqiong.dto.OrderSubmit;
-import com.example.cangqiong.dto.PaymentDto;
+import com.example.cangqiong.entity.dto.OrderSubmit;
+import com.example.cangqiong.entity.dto.PaymentDto;
 import com.example.cangqiong.mapper.OrderSubmitMapper;
 import com.example.cangqiong.utlis.JwtUtil;
-import com.example.cangqiong.vo.CartVo;
-import com.example.cangqiong.vo.OrderSubmitVo;
+import com.example.cangqiong.entity.vo.CartVo;
+import com.example.cangqiong.entity.vo.OrderSubmitVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

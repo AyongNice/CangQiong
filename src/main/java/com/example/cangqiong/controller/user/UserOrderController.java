@@ -1,11 +1,11 @@
 package com.example.cangqiong.controller.user;
 
 
-import com.example.cangqiong.dto.OrderSubmit;
-import com.example.cangqiong.dto.PaymentDto;
+import com.example.cangqiong.entity.dto.OrderSubmit;
+import com.example.cangqiong.entity.dto.PaymentDto;
 import com.example.cangqiong.service.user.OrderSubmitService;
 import com.example.cangqiong.utlis.Result;
-import com.example.cangqiong.vo.OrderSubmitVo;
+import com.example.cangqiong.entity.vo.OrderSubmitVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

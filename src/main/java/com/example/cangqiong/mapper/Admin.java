@@ -1,9 +1,9 @@
 package com.example.cangqiong.mapper;
 
 
-import com.example.cangqiong.dto.EditPasswordDto;
-import com.example.cangqiong.dto.LongDto;
-import com.example.cangqiong.dto.User;
+import com.example.cangqiong.entity.dto.EditPasswordDto;
+import com.example.cangqiong.entity.dto.LongDto;
+import com.example.cangqiong.entity.dto.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

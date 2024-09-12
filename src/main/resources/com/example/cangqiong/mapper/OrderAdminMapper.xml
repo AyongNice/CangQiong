@@ -48,7 +48,7 @@
           and store_id = #{storeId}
     </update>
 
-    <select id="getOrderPage" resultType="com.example.cangqiong.dto.OrderSubmit">
+    <select id="getOrderPage" resultType="com.example.cangqiong.entity.dto.OrderSubmit">
 
         <include refid="selectOder"/>
         <where>
@@ -73,7 +73,7 @@
     </select>
 
     <!--    获取订单详情 -->
-    <select id="getOrderDetails" resultType="com.example.cangqiong.dto.OrderSubmit">
+    <select id="getOrderDetails" resultType="com.example.cangqiong.entity.dto.OrderSubmit">
         <include refid="selectOder"/>
         <where>
             o.id = #{orderId} and o.store_id = #{storeId}
@@ -83,7 +83,7 @@
     </select>
 
     <!--    获取订单菜品详情-->
-    <select id="getOrderCartVoDetails" resultType="com.example.cangqiong.vo.CartVo">
+    <select id="getOrderCartVoDetails" resultType="com.example.cangqiong.entity.vo.CartVo">
         SELECT id,
                name,
                dish_flavor as dishFlavor,
@@ -98,7 +98,7 @@
         WHERE order_id = #{orderId}
     </select>
     <!--    订单统计-->
-    <select id="getOrderStatistics" resultType="com.example.cangqiong.vo.StatisticsVo">
+    <select id="getOrderStatistics" resultType="com.example.cangqiong.entity.vo.StatisticsVo">
         SELECT SUM(IF(status = #{acceptEd}, 1, 0))   as confirmed,
                SUM(IF(status = #{waitAccept}, 1, 0)) as waitingOrders,
                SUM(IF(status = #{delivering}, 1, 0)) as deliveredOrders,
@@ -111,7 +111,7 @@
     </select>
 
     <!--    统计当前店铺的 今天运营数据-->
-    <select id="getBusinessData" resultType="com.example.cangqiong.vo.BusinessDataVo">
+    <select id="getBusinessData" resultType="com.example.cangqiong.entity.vo.BusinessDataVo">
             select
             sum(amount) as turnover,
             avg(amount) as unitPrice,

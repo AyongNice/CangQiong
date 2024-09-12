@@ -1,10 +1,10 @@
 package com.example.cangqiong.service.admin;
 
 import com.example.cangqiong.constant.JwtProperties;
-import com.example.cangqiong.dto.CategoryDto;
+import com.example.cangqiong.entity.dto.CategoryDto;
 import com.example.cangqiong.mapper.CategoryMapper;
 import com.example.cangqiong.utlis.JwtUtil;
-import com.example.cangqiong.vo.PageVo;
+import com.example.cangqiong.entity.vo.PageVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -23,7 +23,7 @@
                 #{isDefault}, #{label}, #{phone}, #{provinceCode}, #{provinceName}, #{sex}, #{userId})
 
     </insert>
-    <update id="setAddressBook" parameterType="com.example.cangqiong.dto.Address">
+    <update id="setAddressBook" parameterType="com.example.cangqiong.entity.dto.Address">
         UPDATE address_book
         SET
         city_code = #{cityCode},

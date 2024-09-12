@@ -90,7 +90,7 @@
 
     </delete>
 
-    <select id="page" resultType="com.example.cangqiong.dto.SetmealDto">
+    <select id="page" resultType="com.example.cangqiong.entity.dto.SetmealDto">
         select
         t1.name,
         t1.category_id as categoryId,
